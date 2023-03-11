@@ -71,7 +71,7 @@ end_position = Vector2(72, 137)
 travel_cost = 0.0
 
 [node name="Player" parent="." instance=ExtResource("2_hw7lg")]
-position = Vector2(226, 130)
+position = Vector2(160, 130)
 
 [node name="NPC" parent="." instance=ExtResource("3_r127j")]
 position = Vector2(104, 40)
