@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtv2hixnlxj0s"]
+
+[ext_resource type="Texture2D" uid="uid://bief5dovcpvd7" path="res://icon.svg" id="1_763dj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8g2mg"]
+size = Vector2(32, 32)
+
+[node name="FoodStand" type="Area2D"]
+z_index = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_8g2mg")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_763dj")
+offset = Vector2(0, 64)

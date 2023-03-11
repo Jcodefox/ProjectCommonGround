@@ -1,0 +1,4 @@
+Earthling:  O2,   20C
+Venusling: CO2,  466C
+Robot:     N/A, -5C<temp<90C
+Cold ones:  O2, -100C<temp<-80C
