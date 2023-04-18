@@ -1,0 +1,8 @@
+Title:
+    Project Common Ground
+
+Gameplay:
+    Wander around building structures and infrastructure to support the life of various species from different climates and planets. These structures will cost either materials, money, or both.
+
+Backstory:
+    The civilizations of various planets across the galaxy have come together to build a land where anyone can live peacefully together. The council in charge of this "Project Common Ground" have chosen you (the player) to be the leader of construction.

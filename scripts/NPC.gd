@@ -31,7 +31,7 @@ var fullfilling_need: NEED_TYPE = NEED_TYPE.NONE
 func _ready() -> void:
 	nav.connect("link_reached", hit_link)
 	for need_id in needs:
-		needs[need_id]["critical_value"] = randi_range(3, 6)
+		needs[need_id]["critical_value"] = randi_range(30, 60)
 		needs[need_id]["decrease_over_time"] = randi_range(-10, -2)
 		needs[need_id]["max_value"] = randi_range(10, 20)
 		needs[need_id]["value"] = needs[need_id]["max_value"]
@@ -81,3 +81,7 @@ func is_dead():
 
 func hit_link(data: Dictionary):
 	position = data["link_exit_position"]
+	print($NavigationAgent2D.navigation_layers)
+	$NavigationAgent2D.set_navigation_layer_value(2, true)
+#	$NavigationAgent2D.set_navigation_layer_value(1, false)
+#	$NavigationAgent2D.set_navigation_layer_value(1, true)
