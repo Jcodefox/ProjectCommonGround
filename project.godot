@@ -61,6 +61,10 @@ dig={
 
 pointing/emulate_touch_from_mouse=true
 
+[navigation]
+
+2d/default_cell_size=16
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

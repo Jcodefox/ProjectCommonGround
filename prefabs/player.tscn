@@ -4,22 +4,25 @@
 [ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://citizens.png" id="2_6s4ju"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_50hug"]
+radius = 5.0
 
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_uswnv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 10.5)
-shape = SubResource("CircleShape2D_50hug")
-
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -10.5)
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("2_6s4ju")
+offset = Vector2(0, -16)
 hframes = 2
 vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_50hug")

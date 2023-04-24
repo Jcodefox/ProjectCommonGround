@@ -11,7 +11,7 @@ enum NEED_TYPE{NONE, FOOD, WATER, ELECTRICITY}
 var fullfilling_need: NEED_TYPE = NEED_TYPE.NONE
 @export var needs: Dictionary = {
 	NEED_TYPE.WATER: {
-		"fullfillment_center": "../WaterStand",
+		"fullfillment_center": "water",
 		"increase_over_time": 1.0,
 		"decrease_over_time": -10.0,
 		"critical_value": 4.0,
@@ -19,7 +19,7 @@ var fullfilling_need: NEED_TYPE = NEED_TYPE.NONE
 		"max_value": 10.0
 	},
 	NEED_TYPE.FOOD: {
-		"fullfillment_center": "../FoodStand",
+		"fullfillment_center": "food",
 		"increase_over_time": 1.0,
 		"decrease_over_time": -3.0,
 		"critical_value": 4.0,
@@ -30,16 +30,17 @@ var fullfilling_need: NEED_TYPE = NEED_TYPE.NONE
 
 func _ready() -> void:
 	nav.connect("link_reached", hit_link)
+	nav.connect("velocity_computed", velocity_computed)
 	for need_id in needs:
-		needs[need_id]["critical_value"] = randi_range(30, 60)
-		needs[need_id]["decrease_over_time"] = randi_range(-10, -2)
-		needs[need_id]["max_value"] = randi_range(10, 20)
+		needs[need_id]["critical_value"] = randi_range(3, 6)
+		needs[need_id]["decrease_over_time"] = randi_range(-10, -6)
+		needs[need_id]["max_value"] = randi_range(10, 15)
 		needs[need_id]["value"] = needs[need_id]["max_value"]
 
 func _process(_delta: float) -> void:
 	$Label.text = ""
 	for need_id in needs:
-		$Label.text += needs[need_id]["fullfillment_center"].substr(3, len(needs[need_id]["fullfillment_center"]) - 8) + ": "
+		$Label.text += needs[need_id]["fullfillment_center"] + ": "
 		$Label.text += "%.1f"%needs[need_id]["value"] + "\n"
 
 func _physics_process(delta: float) -> void:
@@ -47,20 +48,38 @@ func _physics_process(delta: float) -> void:
 		$Sprite2D.rotation_degrees = -90
 		return
 	
+	if position.distance_to(nav.get_next_path_position()) > nav.path_max_distance:
+		nav.target_position = nav.target_position
+	
 	for need_id in needs:
+		var stands := get_tree().get_nodes_in_group(needs[need_id]["fullfillment_center"])
 		# Go to a need's fullfillment location if it runs low.
 		if needs[need_id]["value"] < needs[need_id]["critical_value"]:
-			nav.target_position = get_node(needs[need_id]["fullfillment_center"]).position
-			fullfilling_need = need_id
+			var target_stand: Node2D = null
+			var lowest_dist: float = 0
+			for stand in stands:
+				if target_stand == null:
+					target_stand = stand
+					lowest_dist = position.distance_to(stand.position)
+					continue
+				if position.distance_to(stand.position) < lowest_dist:
+					lowest_dist = position.distance_to(stand.position)
+					target_stand = stand
+				
+			if target_stand != null:
+				set_target(target_stand.position)
+				fullfilling_need = need_id
 		# Do the need logic
-		var at_location: bool = get_node(needs[need_id]["fullfillment_center"]).overlaps_body(self)
+		var at_location: bool = false
+		for stand in stands:
+			at_location = at_location or stand.overlaps_body(self)
 		needs[need_id]["value"] = clamp(needs[need_id]["value"] + delta / needs[need_id]["increase_over_time" if at_location else "decrease_over_time"], 0, needs[need_id]["max_value"])
 		if needs[need_id]["value"] == needs[need_id]["max_value"]:
 			fullfilling_need = NEED_TYPE.NONE
 		
 	# If no needs, go to player
 	if fullfilling_need == NEED_TYPE.NONE:
-		nav.target_position = spawn_point#Vector2(75, 12)#get_node("../Player").position
+		set_target(spawn_point)
 	
 	# Follow pathfinding
 	var direction := (nav.get_next_path_position() - position).normalized()
@@ -71,7 +90,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 	
-	move_and_slide()
+	nav.set_velocity(velocity)
 
 func is_dead():
 	for need_id in needs:
@@ -81,7 +100,17 @@ func is_dead():
 
 func hit_link(data: Dictionary):
 	position = data["link_exit_position"]
-	print($NavigationAgent2D.navigation_layers)
-	$NavigationAgent2D.set_navigation_layer_value(2, true)
-#	$NavigationAgent2D.set_navigation_layer_value(1, false)
-#	$NavigationAgent2D.set_navigation_layer_value(1, true)
+
+func velocity_computed(safe_velocity: Vector2):
+	velocity = safe_velocity
+	move_and_slide()
+
+func set_target(target: Vector2):
+	if nav.target_position != target:
+		nav.target_position = target
+
+func _on_mouse_entered() -> void:
+	$Label.visible = true
+
+func _on_mouse_exited() -> void:
+	$Label.visible = false
