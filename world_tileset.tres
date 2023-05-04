@@ -1,7 +1,7 @@
-[gd_resource type="TileSet" load_steps=21 format=3 uid="uid://c67qtxml8b4xw"]
+[gd_resource type="TileSet" load_steps=21 format=3 uid="uid://wlf2hwmops3x"]
 
-[ext_resource type="Texture2D" uid="uid://djxhd42n2vdo0" path="res://tiles_packed_1.png" id="1_mwyfa"]
-[ext_resource type="Texture2D" uid="uid://bkc4ofg7f88o" path="res://glass.png" id="2_0f1uy"]
+[ext_resource type="Texture2D" uid="uid://djxhd42n2vdo0" path="res://sprites/tiles_packed_1.png" id="1_mwyfa"]
+[ext_resource type="Texture2D" uid="uid://bkc4ofg7f88o" path="res://sprites/glass.png" id="2_0f1uy"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_aljne"]
 tile_data = PackedInt32Array(0, 786432, 0, 65536, 786432, 1, 131072, 786432, 2, 1, 851968, 0, 65537, 851968, 1, 131073, 851968, 2, 196609, 851968, 3, 2, 917504, 0, 65538, 917504, 1, 131074, 917504, 2, 196610, 917504, 3, 3, 983040, 0, 65539, 983040, 1, 131075, 983040, 2)

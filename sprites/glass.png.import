@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by1qddy7ntq37"
-path="res://.godot/imported/stands.png-97d44935ae818c3910f81558883027f0.ctex"
+uid="uid://bkc4ofg7f88o"
+path="res://.godot/imported/glass.png-4d1a1b824fac5fd1ba8eb77c7b83a0c8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://stands.png"
-dest_files=["res://.godot/imported/stands.png-97d44935ae818c3910f81558883027f0.ctex"]
+source_file="res://sprites/glass.png"
+dest_files=["res://.godot/imported/glass.png-4d1a1b824fac5fd1ba8eb77c7b83a0c8.ctex"]
 
 [params]
 

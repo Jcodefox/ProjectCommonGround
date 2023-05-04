@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://crlwf3grq2maa"]
 
 [ext_resource type="Script" path="res://scripts/NPC.gd" id="1_aryiw"]
-[ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://citizens.png" id="2_rfvj8"]
+[ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://sprites/citizens.png" id="2_34ap6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_50hug"]
 radius = 5.0
@@ -23,7 +23,7 @@ shape = SubResource("CircleShape2D_50hug")
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(0, 5.5)
-texture = ExtResource("2_rfvj8")
+texture = ExtResource("2_34ap6")
 offset = Vector2(0, -16)
 hframes = 2
 vframes = 2

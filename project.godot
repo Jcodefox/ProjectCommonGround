@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="Project Common Ground"
-run/main_scene="res://world.tscn"
+run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.0", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://sprites/icon.svg"
 
 [editor]
 

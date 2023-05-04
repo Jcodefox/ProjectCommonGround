@@ -10,6 +10,8 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton or not event.pressed:
 		return
+	if Input.is_key_pressed(KEY_SHIFT):
+		return
 	if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 		selected_structure += 1
 		update_cursors()

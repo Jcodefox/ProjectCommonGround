@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dtv2hixnlxj0s"]
 
-[ext_resource type="Texture2D" uid="uid://by1qddy7ntq37" path="res://stands.png" id="1_xrapa"]
+[ext_resource type="Texture2D" uid="uid://by1qddy7ntq37" path="res://sprites/stands.png" id="1_tr1ir"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8g2mg"]
 size = Vector2(32, 32)
@@ -14,7 +14,7 @@ shape = SubResource("RectangleShape2D_8g2mg")
 [node name="Icon" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(0, 16)
-texture = ExtResource("1_xrapa")
+texture = ExtResource("1_tr1ir")
 offset = Vector2(0, -16)
 hframes = 2
 vframes = 2
