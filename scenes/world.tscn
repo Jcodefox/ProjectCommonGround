@@ -124,7 +124,7 @@ position = Vector2(120, 30)
 frame = 1
 
 [node name="Label" parent="Bird/Label" index="0"]
-text = "Venus Bird"
+text = "Bird thing"
 
 [node name="CollisionShape2D" parent="Bird/Area2D" index="0"]
 position = Vector2(0, -8.5)
@@ -205,6 +205,19 @@ texture_normal = SubResource("GradientTexture2D_yha6t")
 passby_press = true
 action = "right"
 visibility_mode = 1
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer2"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Scroll
+Left click
+Right click
+use wasd
+etc, mess around and point at things
+You'll figure it out
+If not, contact Jcodefox for questions"
 
 [editable path="Bird"]
 [editable path="Bot"]
