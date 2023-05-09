@@ -46,6 +46,7 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if is_dead():
 		$Sprite2D.rotation_degrees = -90
+		GlobalData.change_money_with_pos(-1, position)
 		return
 	
 	if position.distance_to(nav.get_next_path_position()) > nav.path_max_distance:

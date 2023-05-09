@@ -12,7 +12,17 @@ func _physics_process(_delta: float) -> void:
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 	
+	if Input.is_action_just_pressed("interact") and get_node("../Area2D").overlaps_body(self):
+		if GlobalData.riding_vehicle:
+			GlobalData.riding_vehicle = null
+		else:
+			GlobalData.riding_vehicle = get_node("../Area2D")
+			position = GlobalData.riding_vehicle.position
+	
 	move_and_slide()
+	
+	if GlobalData.riding_vehicle:
+		GlobalData.riding_vehicle.position = position
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:
