@@ -3,108 +3,104 @@ extends CharacterBody2D
 const SPEED = 80.0
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
 @onready var spawn_point: Vector2 = position
+@onready var sqrt_path_max_distance: float = sqrt(nav.path_max_distance)
 
-var hunger: float = 10.0
+class Need:
+	var value: float
+	var max_value: float
+	var critical_value: float
+	var seconds_to_increase: float
+	var seconds_to_decrease: float
+	var stand: String
+	func _init(val, max_val, crit_val, sec_inc, sec_dec, stand):
+		value = val
+		max_value = max_val
+		critical_value = crit_val
+		seconds_to_increase = sec_inc
+		seconds_to_decrease = sec_dec
+		self.stand = stand
 
-enum NEED_TYPE{NONE, FOOD, WATER, ELECTRICITY}
-
-var fullfilling_need: NEED_TYPE = NEED_TYPE.NONE
-@export var needs: Dictionary = {
-	NEED_TYPE.WATER: {
-		"fullfillment_center": "water",
-		"increase_over_time": 1.0,
-		"decrease_over_time": -10.0,
-		"critical_value": 4.0,
-		"value": 10.0,
-		"max_value": 10.0
-	},
-	NEED_TYPE.FOOD: {
-		"fullfillment_center": "food",
-		"increase_over_time": 1.0,
-		"decrease_over_time": -3.0,
-		"critical_value": 4.0,
-		"value": 10.0,
-		"max_value": 10.0
-	},
-}
+var fullfilling_need: bool = false
+var needs: Array[Need] = [
+	Need.new(10.0, 10.0, 4.0, 1.0, 10.0, "water"),
+	Need.new(10.0, 10.0, 4.0, 1.0, 10.0, "food"),
+]
 
 func _ready() -> void:
+	spawn_point = Vector2(randf_range(-200.0, 200.0), randf_range(-200.0, 200.0))
 	nav.connect("link_reached", hit_link)
-	nav.connect("velocity_computed", velocity_computed)
-	for need_id in needs:
-		needs[need_id]["critical_value"] = randi_range(3, 6)
-		needs[need_id]["decrease_over_time"] = randi_range(-10, -6)
-		needs[need_id]["max_value"] = randi_range(10, 15)
-		needs[need_id]["value"] = needs[need_id]["max_value"]
+	for need in needs:
+		need.value = need.max_value
+		need.max_value = randi_range(10, 15)
+		need.critical_value = randi_range(3, 6)
+		need.seconds_to_decrease = randi_range(10, 6)
 
 func _process(_delta: float) -> void:
 	$Label.text = ""
-	for need_id in needs:
-		$Label.text += needs[need_id]["fullfillment_center"] + ": "
-		$Label.text += "%.1f"%needs[need_id]["value"] + "\n"
+	for need in needs:
+		$Label.text += need.stand + ": "
+		$Label.text += "%.1f"%need.value + "\n"
 
 func _physics_process(delta: float) -> void:
-	if is_dead():
-		$Sprite2D.rotation_degrees = -90
-		GlobalData.change_money_with_pos(-1, position)
-		return
-	
-	if position.distance_to(nav.get_next_path_position()) > nav.path_max_distance:
-		nav.target_position = nav.target_position
-	
-	for need_id in needs:
-		var stands := get_tree().get_nodes_in_group(needs[need_id]["fullfillment_center"])
+#	if is_dead():
+#		$Sprite2D.rotation_degrees = -90
+#		#GlobalData.change_money_with_pos(-1, position)
+#		return
+	do_need_logic(delta)
+	calculate_movement()
+
+func do_need_logic(delta: float):
+	for need in needs:
+		var stands := get_tree().get_nodes_in_group(need.stand)
 		# Go to a need's fullfillment location if it runs low.
-		if needs[need_id]["value"] < needs[need_id]["critical_value"]:
+		if need.value < need.critical_value:
 			var target_stand: Node2D = null
 			var lowest_dist: float = 0
 			for stand in stands:
 				if target_stand == null:
 					target_stand = stand
-					lowest_dist = position.distance_to(stand.position)
+					lowest_dist = position.distance_squared_to(stand.position)
 					continue
-				if position.distance_to(stand.position) < lowest_dist:
-					lowest_dist = position.distance_to(stand.position)
+				if position.distance_squared_to(stand.position) < lowest_dist:
+					lowest_dist = position.distance_squared_to(stand.position)
 					target_stand = stand
-				
+			
 			if target_stand != null:
 				set_target(target_stand.position)
-				fullfilling_need = need_id
+				fullfilling_need = true
+		
 		# Do the need logic
 		var at_location: bool = false
 		for stand in stands:
 			at_location = at_location or stand.overlaps_body(self)
-		needs[need_id]["value"] = clamp(needs[need_id]["value"] + delta / needs[need_id]["increase_over_time" if at_location else "decrease_over_time"], 0, needs[need_id]["max_value"])
-		if needs[need_id]["value"] == needs[need_id]["max_value"]:
-			fullfilling_need = NEED_TYPE.NONE
-		
-	# If no needs, go to player
-	if fullfilling_need == NEED_TYPE.NONE:
+		need.value = need.value + delta / (need.seconds_to_increase if at_location else -need.seconds_to_decrease)
+		need.value = clamp(need.value, 0, need.max_value)
+		if need.value == need.max_value:
+			fullfilling_need = false
+
+	if not fullfilling_need:
 		set_target(spawn_point)
-	
+
+func calculate_movement():
 	# Follow pathfinding
 	var direction := (nav.get_next_path_position() - position).normalized()
 	if direction.x:
 		$Sprite2D.flip_h = direction.x < 0
-	if not direction.is_zero_approx() and position.distance_to(nav.get_next_path_position()) > 1:
+	if not direction.is_zero_approx() and position.distance_squared_to(nav.get_next_path_position()) > 1:
 		velocity = direction * SPEED
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
-	
-	nav.set_velocity(velocity)
+	if not velocity.is_zero_approx():
+		move_and_slide()
 
 func is_dead():
-	for need_id in needs:
-		if needs[need_id]["value"] <= 0.0:
+	for need in needs:
+		if need.value <= 0.0:
 			return true
 	return false
 
-func hit_link(data: Dictionary):
+func hit_link(data: Dictionary) -> void:
 	position = data["link_exit_position"]
-
-func velocity_computed(safe_velocity: Vector2):
-	velocity = safe_velocity
-	move_and_slide()
 
 func set_target(target: Vector2):
 	if nav.target_position != target:
@@ -112,6 +108,5 @@ func set_target(target: Vector2):
 
 func _on_mouse_entered() -> void:
 	$Label.visible = true
-
 func _on_mouse_exited() -> void:
 	$Label.visible = false

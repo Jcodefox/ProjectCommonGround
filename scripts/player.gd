@@ -2,6 +2,9 @@ extends CharacterBody2D
 
 const SPEED = 80.0
 
+func _ready() -> void:
+	GlobalData.riding_vehicle = get_node("../Bulldozer")
+
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_vector("left", "right", "up", "down")
@@ -12,11 +15,11 @@ func _physics_process(_delta: float) -> void:
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 	
-	if Input.is_action_just_pressed("interact") and get_node("../Area2D").overlaps_body(self):
+	if Input.is_action_just_pressed("interact") and get_node("../Bulldozer").overlaps_body(self):
 		if GlobalData.riding_vehicle:
 			GlobalData.riding_vehicle = null
 		else:
-			GlobalData.riding_vehicle = get_node("../Area2D")
+			GlobalData.riding_vehicle = get_node("../Bulldozer")
 			position = GlobalData.riding_vehicle.position
 	
 	move_and_slide()

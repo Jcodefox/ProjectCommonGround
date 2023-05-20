@@ -1,10 +1,13 @@
 extends Node
 
-var money: int = 1000
+var money: int = 10000
 var riding_vehicle: Area2D = null
 
 func _ready() -> void:
 	set_money(money)
+
+func _process(_delta: float) -> void:
+	get_tree().current_scene.get_node("CanvasLayer2/FPS").text = "%d FPS"%Engine.get_frames_per_second()
 
 func set_money(new_money: int) -> void:
 	money = new_money

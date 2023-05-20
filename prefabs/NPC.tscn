@@ -11,6 +11,7 @@ size = Vector2(14, 33)
 
 [node name="NPC" type="CharacterBody2D"]
 y_sort_enabled = true
+collision_layer = 2
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_aryiw")
@@ -29,8 +30,7 @@ hframes = 2
 vframes = 2
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_max_distance = 10.0
-avoidance_enabled = true
+path_desired_distance = 32.0
 
 [node name="Label" type="Label" parent="."]
 visible = false

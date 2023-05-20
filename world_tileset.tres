@@ -816,6 +816,7 @@ texture = ExtResource("1_mwyfa")
 20:4/0/physics_layer_0/angular_velocity = 0.0
 20:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_jiul5")
 21:4/0 = 0
+21:4/0/y_sort_origin = -8
 21:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 21:4/0/physics_layer_0/angular_velocity = 0.0
 21:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_jiul5")
