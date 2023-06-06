@@ -27,7 +27,10 @@ var needs: Array[Need] = [
 ]
 
 func _ready() -> void:
-	spawn_point = Vector2(randf_range(-200.0, 200.0), randf_range(-200.0, 200.0))
+	var beds: Array[Vector2i] = GlobalData.get_beds()
+	if beds.size() > 0:
+		spawn_point = beds.pick_random()
+	#spawn_point = Vector2(randf_range(-200.0, 200.0), randf_range(-200.0, 200.0))
 	nav.connect("link_reached", hit_link)
 	for need in needs:
 		need.value = need.max_value
@@ -51,28 +54,24 @@ func _physics_process(delta: float) -> void:
 
 func do_need_logic(delta: float):
 	for need in needs:
-		var stands := get_tree().get_nodes_in_group(need.stand)
+		var stands: Array[Vector2i] = GlobalData.get_stands_of_type(need.stand)
 		# Go to a need's fullfillment location if it runs low.
 		if need.value < need.critical_value:
-			var target_stand: Node2D = null
-			var lowest_dist: float = 0
+			var target_stand: Vector2 = Vector2.INF
+			var lowest_dist: float = INF
 			for stand in stands:
-				if target_stand == null:
-					target_stand = stand
-					lowest_dist = position.distance_squared_to(stand.position)
-					continue
-				if position.distance_squared_to(stand.position) < lowest_dist:
-					lowest_dist = position.distance_squared_to(stand.position)
+				if position.distance_squared_to(stand) < lowest_dist:
+					lowest_dist = position.distance_squared_to(stand)
 					target_stand = stand
 			
 			if target_stand != null:
-				set_target(target_stand.position)
+				set_target(target_stand)
 				fullfilling_need = true
 		
 		# Do the need logic
 		var at_location: bool = false
 		for stand in stands:
-			at_location = at_location or stand.overlaps_body(self)
+			at_location = at_location or position.distance_squared_to(stand) < 64
 		need.value = need.value + delta / (need.seconds_to_increase if at_location else -need.seconds_to_decrease)
 		need.value = clamp(need.value, 0, need.max_value)
 		if need.value == need.max_value:

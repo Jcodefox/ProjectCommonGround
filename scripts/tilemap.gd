@@ -5,6 +5,7 @@ extends TileMap
 var selected_structure: int = 4
 
 func _ready() -> void:
+	GlobalData.tilemap = self
 	update_cursors()
 
 func _input(event: InputEvent) -> void:
@@ -49,40 +50,23 @@ func _process(delta: float) -> void:
 		return
 	
 	if $Cursors/CursorBuilding.visible:
-		var selected_building: String = ["battery", "windup", "water", "food"][$Cursors/CursorBuilding.frame]
 		if Input.is_action_just_pressed("place"):
 			if GlobalData.purchase(100, mouse_pos * 16):
-				var new_stand: Node2D = stand.instantiate()
-				new_stand.position = mouse_pos * 16 + Vector2i(8, 8)
-				new_stand.add_to_group(selected_building)
-				new_stand.get_node("Icon").frame = $Cursors/CursorBuilding.frame
-				new_stand.connect("input_event", stand_input_event.bind(new_stand))
-				get_parent().add_child(new_stand)
+				set_cell(3, mouse_pos, 1, $Cursors/CursorBuilding.frame_coords * 2)
+		if Input.is_action_pressed("dig"):
+			dig(mouse_pos, 3, 100)
 	else:
 		var cell_pointed_at: Vector2i = get_cell_atlas_coords(2, mouse_pos)
 		var selected_cell: Vector2i = [Vector2i(1, 5), Vector2i(16, 3)][(selected_structure - 4) % 2]
 		var cell_duplicate: bool = cell_pointed_at == selected_cell
 		if Input.is_action_pressed("place") and not cell_duplicate:
 			if GlobalData.purchase(5, mouse_pos * 16):
-				dig(mouse_pos)
+				dig(mouse_pos, 2, 5)
 				set_cell(2, mouse_pos, 0, selected_cell)
 		if Input.is_action_pressed("dig"):
-			dig(mouse_pos)
+			dig(mouse_pos, 2, 5)
 
-func dig(location: Vector2i):
-	if get_cell_atlas_coords(2, location) != Vector2i(-1, -1):
-		erase_cell(2, location)
-		GlobalData.change_money_with_pos(5, location * 16)
-
-func stand_input_event(viewport: Node, event: InputEvent, shape_idx: int, stand: Node2D):
-	if not event is InputEventMouseButton: 
-		return
-	if not event.pressed:
-		return
-	if not $Cursors.visible:
-		return
-	if not $Cursors/CursorBuilding.visible:
-		return
-	if event.button_index == MOUSE_BUTTON_RIGHT:
-		stand.queue_free()
-		GlobalData.change_money_with_pos(100, stand.position)
+func dig(location: Vector2i, layer: int, price: int):
+	if get_cell_atlas_coords(layer, location) != Vector2i(-1, -1):
+		erase_cell(layer, location)
+		GlobalData.change_money_with_pos(price, location * 16)
