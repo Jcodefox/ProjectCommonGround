@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bovvefbgrtvx1"]
+
+[ext_resource type="Script" path="res://scripts/landing_pad.gd" id="1_wi883"]
+[ext_resource type="PackedScene" uid="uid://crlwf3grq2maa" path="res://prefabs/NPC.tscn" id="2_fcay1"]
+[ext_resource type="Texture2D" uid="uid://kqt7oynhpn3j" path="res://sprites/landing_pad.png" id="3_osi3m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_akaa5"]
+size = Vector2(64, 64)
+
+[node name="LandingPad" type="Area2D"]
+script = ExtResource("1_wi883")
+player_prefabs = Array[PackedScene]([ExtResource("2_fcay1")])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_akaa5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("3_osi3m")
+offset = Vector2(0, -8)

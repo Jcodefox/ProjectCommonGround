@@ -13,6 +13,12 @@ func set_money(new_money: int) -> void:
 	money = new_money
 	get_tree().current_scene.get_node("CanvasLayer2/Money").text = "$" + str(money)
 
+func purchase(change_amount: int, pos: Vector2=Vector2(-500000,-500000)) -> bool:
+	if money < change_amount:
+		return false
+	change_money_with_pos(-change_amount, pos)
+	return true
+
 func change_money_with_pos(change_amount: int, pos: Vector2=Vector2(-500000,-500000)):
 	set_money(money + change_amount)
 	if pos.x > -49999 and pos.y > -49999:

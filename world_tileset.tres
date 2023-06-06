@@ -1,7 +1,9 @@
-[gd_resource type="TileSet" load_steps=21 format=3 uid="uid://wlf2hwmops3x"]
+[gd_resource type="TileSet" load_steps=24 format=3 uid="uid://wlf2hwmops3x"]
 
 [ext_resource type="Texture2D" uid="uid://djxhd42n2vdo0" path="res://sprites/tiles_packed_1.png" id="1_mwyfa"]
 [ext_resource type="Texture2D" uid="uid://bkc4ofg7f88o" path="res://sprites/glass.png" id="2_0f1uy"]
+[ext_resource type="PackedScene" uid="uid://bovvefbgrtvx1" path="res://prefabs/landing_pad.tscn" id="2_o0x8y"]
+[ext_resource type="PackedScene" uid="uid://dtv2hixnlxj0s" path="res://prefabs/food_stand.tscn" id="3_cj5eo"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_aljne"]
 tile_data = PackedInt32Array(0, 786432, 0, 65536, 786432, 1, 131072, 786432, 2, 1, 851968, 0, 65537, 851968, 1, 131073, 851968, 2, 196609, 851968, 3, 2, 917504, 0, 65538, 917504, 1, 131074, 917504, 2, 196610, 917504, 3, 3, 983040, 0, 65539, 983040, 1, 131075, 983040, 2)
@@ -1092,6 +1094,10 @@ texture = ExtResource("1_mwyfa")
 1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, 8, 8, 8, -8, -8, -8)
 1:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_jiul5")
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_1wnx0"]
+scenes/1/scene = ExtResource("2_o0x8y")
+scenes/2/scene = ExtResource("3_cj5eo")
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_wbxc7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rs7n7"]
@@ -1109,4 +1115,5 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_kx402")
 sources/3 = SubResource("TileSetAtlasSource_rs7n7")
+sources/1 = SubResource("TileSetScenesCollectionSource_1wnx0")
 pattern_0 = SubResource("TileMapPattern_aljne")

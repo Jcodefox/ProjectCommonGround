@@ -2,9 +2,6 @@ extends CharacterBody2D
 
 const SPEED = 80.0
 
-func _ready() -> void:
-	GlobalData.riding_vehicle = get_node("../Bulldozer")
-
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_vector("left", "right", "up", "down")
@@ -20,12 +17,12 @@ func _physics_process(_delta: float) -> void:
 			GlobalData.riding_vehicle = null
 		else:
 			GlobalData.riding_vehicle = get_node("../Bulldozer")
-			position = GlobalData.riding_vehicle.position
+			position = GlobalData.riding_vehicle.position - Vector2(5, -7)
 	
 	move_and_slide()
 	
 	if GlobalData.riding_vehicle:
-		GlobalData.riding_vehicle.position = position
+		GlobalData.riding_vehicle.position = position + Vector2(5, -7)
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:
