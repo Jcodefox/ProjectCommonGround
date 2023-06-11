@@ -2,39 +2,58 @@ extends TileMap
 
 @export var stand: PackedScene
 
-var selected_structure: int = 4
+class Tile:
+	var render_src: Texture2D
+	var tileset_location: Vector2i
+	var tileset_src_id: int
+	var tilemap_layer: int
+	var render_location: Vector2i
+	var price: int
+	var render_size: Vector2i
+	var render_offset: Vector2i
+	func _init(rndr_src, set_location, set_src_id, map_layer, prc, rndr_size = Vector2i.ONE, rndr_offset = Vector2i.ZERO, rndr_loc = set_location):
+		tileset_location = set_location
+		tileset_src_id = set_src_id
+		tilemap_layer = map_layer
+		price = prc
+		render_size = rndr_size
+		render_location = rndr_loc
+		render_src = rndr_src
+		render_offset = rndr_offset
+
+var placeable_tiles: Array[Tile] = [
+	Tile.new(preload("res://sprites/tiles_packed_1.png"), Vector2i(16, 3), 0, 2, 5, Vector2i(1, 1)),
+	Tile.new(preload("res://sprites/tiles_packed_1.png"), Vector2i(1, 5), 0, 2, 5, Vector2i(1, 3), Vector2i(0, -1)),
+	Tile.new(preload("res://sprites/stands.png"), Vector2i(0, 0), 1, 3, 100, Vector2i(2, 2)),
+	Tile.new(preload("res://sprites/stands.png"), Vector2i(2, 0), 1, 3, 100, Vector2i(2, 2)),
+	Tile.new(preload("res://sprites/stands.png"), Vector2i(0, 2), 1, 3, 100, Vector2i(2, 2)),
+	Tile.new(preload("res://sprites/stands.png"), Vector2i(2, 2), 1, 3, 100, Vector2i(2, 2)),
+]
+
+var selected_structure: int = 0
 
 func _ready() -> void:
 	GlobalData.tilemap = self
-	update_cursors()
+	update_Cursor()
 
 func _input(event: InputEvent) -> void:
-	if not $Cursors.visible:
+	if not event is InputEventMouseButton or not event.pressed:
 		return
-	if not event is InputEventMouseButton:
-		return
-	if not event.pressed:
-		return
-	if Input.is_key_pressed(KEY_SHIFT):
+	if Input.is_key_pressed(KEY_SHIFT) or not $Cursor.visible:
 		return
 	if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 		selected_structure += 1
-		update_cursors()
+		update_Cursor()
 	if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 		selected_structure -= 1
-		update_cursors()
+		update_Cursor()
 
-func update_cursors():
+func update_Cursor():
 	if selected_structure < 0:
-		selected_structure = 5
-	selected_structure = selected_structure % 6
-	
-	$Cursors/CursorBuilding.visible = selected_structure < 4
-	$Cursors/CursorBuilding.frame = selected_structure % 4
-	
-	$Cursors/CursorRoof.visible = not $Cursors/CursorBuilding.visible
-	$Cursors/CursorRoof.frame_coords = [Vector2i(1, 7), Vector2i(16, 3)][(selected_structure - 4) % 2]
-	$Cursors/CursorRoof/CursorRoof2.visible = selected_structure == 4
+		selected_structure = placeable_tiles.size() - 1
+	selected_structure = selected_structure % placeable_tiles.size()
+	$Cursor.texture = placeable_tiles[selected_structure].render_src
+	$Cursor.region_rect = Rect2i(placeable_tiles[selected_structure].render_location * 16, placeable_tiles[selected_structure].render_size * 16)
 
 func _process(delta: float) -> void:
 	var mouse_pos: Vector2i = get_global_mouse_position() / 16
@@ -42,29 +61,21 @@ func _process(delta: float) -> void:
 		mouse_pos.x -= 1
 	if get_global_mouse_position().y < 0:
 		mouse_pos.y -= 1
-	$Cursors/CursorRoof.position = $Cursors/CursorRoof.position.lerp(mouse_pos * 16, delta * 30)
-	$Cursors/CursorBuilding.position = $Cursors/CursorRoof.position + Vector2(8, 24)
+	$Cursor.position = $Cursor.position.lerp((mouse_pos + placeable_tiles[selected_structure].render_offset) * 16, delta * 30)
 	
-	$Cursors.visible = GlobalData.riding_vehicle != null
-	if not $Cursors.visible:
+	$Cursor.visible = GlobalData.riding_vehicle != null
+	if not $Cursor.visible:
 		return
 	
-	if $Cursors/CursorBuilding.visible:
-		if Input.is_action_just_pressed("place"):
-			if GlobalData.purchase(100, mouse_pos * 16):
-				set_cell(3, mouse_pos, 1, $Cursors/CursorBuilding.frame_coords * 2)
-		if Input.is_action_pressed("dig"):
-			dig(mouse_pos, 3, 100)
-	else:
-		var cell_pointed_at: Vector2i = get_cell_atlas_coords(2, mouse_pos)
-		var selected_cell: Vector2i = [Vector2i(1, 5), Vector2i(16, 3)][(selected_structure - 4) % 2]
-		var cell_duplicate: bool = cell_pointed_at == selected_cell
-		if Input.is_action_pressed("place") and not cell_duplicate:
-			if GlobalData.purchase(5, mouse_pos * 16):
-				dig(mouse_pos, 2, 5)
-				set_cell(2, mouse_pos, 0, selected_cell)
-		if Input.is_action_pressed("dig"):
-			dig(mouse_pos, 2, 5)
+	var selected_tile: Tile = placeable_tiles[selected_structure]
+	var cell_pointed_at: Vector2i = get_cell_atlas_coords(selected_tile.tilemap_layer, mouse_pos)
+	var cell_duplicate: bool = cell_pointed_at == selected_tile.tileset_location
+	if Input.is_action_pressed("place") and not cell_duplicate:
+		if GlobalData.purchase(selected_tile.price, mouse_pos * 16):
+			dig(mouse_pos, selected_tile.tilemap_layer, 5)
+			set_cell(selected_tile.tilemap_layer, mouse_pos, selected_tile.tileset_src_id, selected_tile.tileset_location)
+	if Input.is_action_pressed("dig"):
+		dig(mouse_pos, selected_tile.tilemap_layer, 5)
 
 func dig(location: Vector2i, layer: int, price: int):
 	if get_cell_atlas_coords(layer, location) != Vector2i(-1, -1):
