@@ -58,6 +58,7 @@ script = ExtResource("2_pgitn")
 stand = ExtResource("3_23kq7")
 
 [node name="Cursor" type="Sprite2D" parent="Tilemap"]
+visible = false
 z_index = 100
 texture = ExtResource("4_t6clj")
 offset = Vector2(8, 8)
