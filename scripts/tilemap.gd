@@ -7,27 +7,26 @@ class Tile:
 	var tileset_location: Vector2i
 	var tileset_src_id: int
 	var tilemap_layer: int
-	var render_location: Vector2i
 	var price: int
-	var render_size: Vector2i
 	var render_offset: Vector2i
-	func _init(rndr_src, set_location, set_src_id, map_layer, prc, rndr_size = Vector2i.ONE, rndr_offset = Vector2i.ZERO, rndr_loc = set_location):
+	func _init(rndr_src, set_location, set_src_id, map_layer, prc, rndr_offset = Vector2i.ZERO):
 		tileset_location = set_location
 		tileset_src_id = set_src_id
 		tilemap_layer = map_layer
 		price = prc
-		render_size = rndr_size
-		render_location = rndr_loc
 		render_src = rndr_src
 		render_offset = rndr_offset
 
+const GROUND_TILESET: Texture2D = preload("res://sprites/tiles_packed_1.png")
+const STANDS_TILESET: Texture2D = preload("res://sprites/tiles_packed_1.png")
+
 var placeable_tiles: Array[Tile] = [
-	Tile.new(preload("res://sprites/tiles_packed_1.png"), Vector2i(16, 3), 0, 2, 5, Vector2i(1, 1)),
-	Tile.new(preload("res://sprites/tiles_packed_1.png"), Vector2i(1, 5), 0, 2, 5, Vector2i(1, 3), Vector2i(0, -1)),
-	Tile.new(preload("res://sprites/stands.png"), Vector2i(0, 0), 1, 3, 100, Vector2i(2, 2)),
-	Tile.new(preload("res://sprites/stands.png"), Vector2i(2, 0), 1, 3, 100, Vector2i(2, 2)),
-	Tile.new(preload("res://sprites/stands.png"), Vector2i(0, 2), 1, 3, 100, Vector2i(2, 2)),
-	Tile.new(preload("res://sprites/stands.png"), Vector2i(2, 2), 1, 3, 100, Vector2i(2, 2)),
+	Tile.new(GROUND_TILESET, Vector2i(16, 3), 0, 2, 5), # Walkable
+	Tile.new(GROUND_TILESET, Vector2i(1, 5), 0, 2, 5, Vector2i(0, -1)), # Wall
+	Tile.new(STANDS_TILESET, Vector2i(0, 0), 1, 3, 100), # Battery
+	Tile.new(STANDS_TILESET, Vector2i(2, 0), 1, 3, 100), # Windup
+	Tile.new(STANDS_TILESET, Vector2i(0, 2), 1, 3, 100), # Water
+	Tile.new(STANDS_TILESET, Vector2i(2, 2), 1, 3, 100), # Bread
 ]
 
 var selected_structure: int = 0
@@ -53,7 +52,7 @@ func update_Cursor():
 		selected_structure = placeable_tiles.size() - 1
 	selected_structure = selected_structure % placeable_tiles.size()
 	$Cursor.texture = placeable_tiles[selected_structure].render_src
-	$Cursor.region_rect = Rect2i(placeable_tiles[selected_structure].render_location * 16, placeable_tiles[selected_structure].render_size * 16)
+	$Cursor.region_rect = tile_set.get_source(placeable_tiles[selected_structure].tileset_src_id).get_tile_texture_region(placeable_tiles[selected_structure].tileset_location)
 
 func _process(delta: float) -> void:
 	var mouse_pos: Vector2i = get_global_mouse_position() / 16
