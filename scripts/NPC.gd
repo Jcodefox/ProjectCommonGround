@@ -21,6 +21,7 @@ class Need:
 		self.stand = stand
 
 var fullfilling_need: bool = false
+var already_died: bool = false
 var needs: Array[Need] = [
 	Need.new(10.0, 10.0, 4.0, 1.0, 10.0, "water"),
 	Need.new(10.0, 10.0, 4.0, 1.0, 10.0, "food"),
@@ -50,10 +51,13 @@ func _process(_delta: float) -> void:
 		$Label.text += "%.1f"%need.value + "\n"
 
 func _physics_process(delta: float) -> void:
-#	if is_dead():
-#		$Sprite2D.rotation_degrees = -90
-#		#GlobalData.change_money_with_pos(-1, position)
-#		return
+	if already_died:
+		return
+	if is_dead():
+		$Sprite2D.rotation_degrees = -90
+		GlobalData.change_money_with_pos(-1000, position)
+		already_died = true
+		return
 	do_need_logic(delta)
 	calculate_movement()
 
