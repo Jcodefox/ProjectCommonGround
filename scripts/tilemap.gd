@@ -18,13 +18,13 @@ var placeable_tiles: Array[Tile] = [
 	Tile.new(Vector2i(0, 2), 1), # Water
 	Tile.new(Vector2i(2, 2), 1), # Bread
 	Tile.new(Vector2i(0, 0), 3), # Landing pad
-	Tile.new(Vector2i(0, 0), 2), # Home
+	Tile.new(Vector2i(0, 0), 4), # Home
 ]
 
 var selected_structure: int = 0
 
 @export var npc_prefabs: Array[PackedScene] = []
-var npc_amount: int = 4
+var npc_amount: int = 0
 
 func _ready() -> void:
 	add_child(cursor)
@@ -38,9 +38,10 @@ func _ready() -> void:
 	get_tree().create_timer(5).timeout.connect(spawn_citizen)
 
 func spawn_citizen() -> void:
+	var landing_pads: Array[Vector2i] = get_used_cells(4)
+	get_tree().create_timer(max(1, 10 - landing_pads.size())).timeout.connect(spawn_citizen)
 	if npc_prefabs.size() <= 0:
 		return
-	var landing_pads: Array[Vector2i] = get_used_cells(4)
 	if landing_pads.size() <= 0:
 		return
 	npc_amount += 1
@@ -48,8 +49,10 @@ func spawn_citizen() -> void:
 	var new_npc: Node2D = npc_prefabs.pick_random().instantiate()
 	get_parent().add_child(new_npc)
 	new_npc.get_node("Sprite2D").frame = [0, 1, 2, 3].pick_random()
+	if new_npc.get_node("Sprite2D").frame == 2:
+		new_npc.needs[0].stand = "battery"
+		new_npc.needs[1].stand = "windup"
 	new_npc.position = landing_pads.pick_random() * 16
-	get_tree().create_timer(max(1, 10 - landing_pads.size())).timeout.connect(spawn_citizen)
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton or not event.pressed:

@@ -36,7 +36,7 @@ func change_money_with_pos(change_amount: int, pos: Vector2=Vector2(-500000,-500
 		tween.tween_callback(money_sub.queue_free)
 
 func get_beds() -> Array[Vector2i]:
-	var beds: Array[Vector2i] = tilemap.get_used_cells_by_id(3, 2, Vector2i.ZERO)
+	var beds: Array[Vector2i] = tilemap.get_used_cells_by_id(3, 4, Vector2i.ZERO)
 	for i in range(beds.size()):
 		beds[i] = beds[i] * 16 + Vector2i(8, 8)
 	return beds

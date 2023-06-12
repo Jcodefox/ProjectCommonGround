@@ -28,6 +28,7 @@ var needs: Array[Need] = [
 ]
 
 func check_for_bed():
+	print("Bed logic")
 	if get_node("../Tilemap").get_cell_atlas_coords(3, (spawn_point - Vector2(8, 8)) / 16) != Vector2i(0, 0):
 		var beds: Array[Vector2i] = GlobalData.get_beds()
 		if beds.size() > 0:
