@@ -1,8 +1,9 @@
-[gd_resource type="TileSet" load_steps=22 format=3 uid="uid://wlf2hwmops3x"]
+[gd_resource type="TileSet" load_steps=24 format=3 uid="uid://wlf2hwmops3x"]
 
 [ext_resource type="Texture2D" uid="uid://djxhd42n2vdo0" path="res://sprites/tiles_packed_1.png" id="1_mwyfa"]
 [ext_resource type="Texture2D" uid="uid://bkc4ofg7f88o" path="res://sprites/glass.png" id="2_0f1uy"]
 [ext_resource type="Texture2D" uid="uid://by1qddy7ntq37" path="res://sprites/stands.png" id="2_bnt2r"]
+[ext_resource type="Texture2D" uid="uid://kqt7oynhpn3j" path="res://sprites/landing_pad.png" id="4_hqd7d"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jiul5"]
 
@@ -1132,6 +1133,19 @@ texture = ExtResource("2_0f1uy")
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_wbxc7")
+0:0/0/custom_data_0 = 20
+0:0/0/custom_data_1 = 3
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xgub7"]
+texture = ExtResource("4_hqd7d")
+0:0/size_in_atlas = Vector2i(4, 4)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 24)
+0:0/0/y_sort_origin = 32
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/custom_data_0 = 500
+0:0/0/custom_data_1 = 4
 
 [resource]
 physics_layer_0/collision_layer = 1
@@ -1146,3 +1160,4 @@ custom_data_layer_1/type = 2
 sources/0 = SubResource("TileSetAtlasSource_kx402")
 sources/1 = SubResource("TileSetAtlasSource_kivoq")
 sources/2 = SubResource("TileSetAtlasSource_rs7n7")
+sources/3 = SubResource("TileSetAtlasSource_xgub7")

@@ -1,13 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://b5ty1g8xvveao"]
+[gd_scene load_steps=11 format=3 uid="uid://b5ty1g8xvveao"]
 
 [ext_resource type="TileSet" uid="uid://wlf2hwmops3x" path="res://world_tileset.tres" id="1_480oy"]
 [ext_resource type="Script" path="res://scripts/tilemap.gd" id="2_pgitn"]
 [ext_resource type="PackedScene" uid="uid://dtv2hixnlxj0s" path="res://prefabs/food_stand.tscn" id="3_23kq7"]
-[ext_resource type="Texture2D" uid="uid://djxhd42n2vdo0" path="res://sprites/tiles_packed_1.png" id="4_t6clj"]
 [ext_resource type="PackedScene" uid="uid://bn6i3gp4rk4bb" path="res://prefabs/player.tscn" id="6_kgomg"]
 [ext_resource type="PackedScene" uid="uid://crlwf3grq2maa" path="res://prefabs/NPC.tscn" id="7_2grjc"]
 [ext_resource type="Texture2D" uid="uid://ccb81lkakaage" path="res://sprites/bulldozer.png" id="8_hjaxw"]
-[ext_resource type="PackedScene" uid="uid://bovvefbgrtvx1" path="res://prefabs/landing_pad.tscn" id="9_80688"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lkrt5"]
 size = Vector2(32, 29)
@@ -50,20 +48,20 @@ layer_2/tile_data = PackedInt32Array(-196617, 1048576, 3, -131081, 1048576, 3, -
 layer_3/name = "Stands"
 layer_3/enabled = true
 layer_3/modulate = Color(1, 1, 1, 1)
-layer_3/y_sort_enabled = false
+layer_3/y_sort_enabled = true
 layer_3/y_sort_origin = 0
-layer_3/z_index = 10
-layer_3/tile_data = PackedInt32Array(-196598, 2, 0, -196594, 2, 0, -196590, 2, 0, 262150, 2, 0, 393240, 2, 0, 720893, 2, 0, 1114138, 2, 0, 1048583, 2, 0)
+layer_3/z_index = 0
+layer_3/tile_data = PackedInt32Array(-196598, 2, 0, -196594, 2, 0, -196590, 2, 0, 262150, 2, 0, 720893, 2, 0, 1114138, 2, 0, 1048583, 2, 0, 393240, 2, 0)
+layer_4/name = "Landing Pads"
+layer_4/enabled = true
+layer_4/modulate = Color(1, 1, 1, 1)
+layer_4/y_sort_enabled = false
+layer_4/y_sort_origin = 0
+layer_4/z_index = -1
+layer_4/tile_data = PackedInt32Array()
 script = ExtResource("2_pgitn")
 stand = ExtResource("3_23kq7")
-
-[node name="Cursor" type="Sprite2D" parent="Tilemap"]
-visible = false
-z_index = 100
-texture = ExtResource("4_t6clj")
-offset = Vector2(8, 8)
-region_enabled = true
-region_rect = Rect2(0, 0, 16, 16)
+npc_prefabs = Array[PackedScene]([ExtResource("7_2grjc")])
 
 [node name="Player" parent="." instance=ExtResource("6_kgomg")]
 position = Vector2(216, 30)
@@ -116,9 +114,25 @@ text = "Snow Animal"
 position = Vector2(-2.5, -1)
 shape = SubResource("RectangleShape2D_excif")
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="Bulldozer" type="Area2D" parent="." groups=["bulldozer"]]
+y_sort_enabled = true
+texture_filter = 1
+position = Vector2(216, 80)
+collision_layer = 0
+collision_mask = 256
+monitorable = false
 
-[node name="Money" type="Label" parent="CanvasLayer2"]
+[node name="Sprite2D" type="Sprite2D" parent="Bulldozer"]
+texture = ExtResource("8_hjaxw")
+offset = Vector2(0, -24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bulldozer"]
+position = Vector2(0, -24)
+shape = SubResource("RectangleShape2D_x78ss")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Money" type="Label" parent="CanvasLayer"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -127,7 +141,7 @@ offset_bottom = 26.0
 grow_horizontal = 0
 text = "$10000"
 
-[node name="Citizens" type="Label" parent="CanvasLayer2"]
+[node name="Citizens" type="Label" parent="CanvasLayer"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -137,7 +151,7 @@ offset_bottom = 66.0
 grow_horizontal = 0
 text = "4 Citizens"
 
-[node name="FPS" type="Label" parent="CanvasLayer2"]
+[node name="FPS" type="Label" parent="CanvasLayer"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -146,24 +160,6 @@ offset_top = 20.0
 offset_bottom = 46.0
 grow_horizontal = 0
 text = "0 FPS"
-
-[node name="Bulldozer" type="Area2D" parent="." groups=["bulldozer"]]
-z_index = 1
-texture_filter = 1
-position = Vector2(216, 80)
-collision_layer = 0
-collision_mask = 256
-monitorable = false
-
-[node name="Sprite2D" type="Sprite2D" parent="Bulldozer"]
-texture = ExtResource("8_hjaxw")
-offset = Vector2(0, -8)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bulldozer"]
-position = Vector2(0, -8)
-shape = SubResource("RectangleShape2D_x78ss")
-
-[node name="LandingPad" parent="." instance=ExtResource("9_80688")]
 
 [editable path="Bird"]
 [editable path="Bot"]

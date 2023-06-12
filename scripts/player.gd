@@ -17,12 +17,12 @@ func _physics_process(_delta: float) -> void:
 			GlobalData.riding_vehicle = null
 		else:
 			GlobalData.riding_vehicle = get_node("../Bulldozer")
-			position = GlobalData.riding_vehicle.position - Vector2(5, -7)
+			position = GlobalData.riding_vehicle.position - Vector2(5, 9)
 	
 	move_and_slide()
 	
 	if GlobalData.riding_vehicle:
-		GlobalData.riding_vehicle.position = position + Vector2(5, -7)
+		GlobalData.riding_vehicle.position = position + Vector2(5, 9)
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:

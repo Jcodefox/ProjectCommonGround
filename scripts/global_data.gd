@@ -9,11 +9,11 @@ func _ready() -> void:
 	set_money(money)
 
 func _process(_delta: float) -> void:
-	get_tree().current_scene.get_node("CanvasLayer2/FPS").text = "%d FPS"%Engine.get_frames_per_second()
+	get_tree().current_scene.get_node("CanvasLayer/FPS").text = "%d FPS"%Engine.get_frames_per_second()
 
 func set_money(new_money: int) -> void:
 	money = new_money
-	get_tree().current_scene.get_node("CanvasLayer2/Money").text = "$" + str(money)
+	get_tree().current_scene.get_node("CanvasLayer/Money").text = "$" + str(money)
 
 func purchase(change_amount: int, pos: Vector2=Vector2(-500000,-500000)) -> bool:
 	if money < change_amount:
