@@ -26,10 +26,15 @@ var needs: Array[Need] = [
 	Need.new(10.0, 10.0, 4.0, 1.0, 10.0, "food"),
 ]
 
+func check_for_bed():
+	if get_node("../Tilemap").get_cell_atlas_coords(3, (spawn_point - Vector2(8, 8)) / 16) != Vector2i(0, 0):
+		var beds: Array[Vector2i] = GlobalData.get_beds()
+		if beds.size() > 0:
+			spawn_point = beds.pick_random()
+	get_tree().create_timer(1).timeout.connect(check_for_bed)
+
 func _ready() -> void:
-	var beds: Array[Vector2i] = GlobalData.get_beds()
-	if beds.size() > 0:
-		spawn_point = beds.pick_random()
+	get_tree().create_timer(1).timeout.connect(check_for_bed)
 	#spawn_point = Vector2(randf_range(-200.0, 200.0), randf_range(-200.0, 200.0))
 	nav.connect("link_reached", hit_link)
 	for need in needs:
