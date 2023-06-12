@@ -13,12 +13,12 @@ class Tile:
 var placeable_tiles: Array[Tile] = [
 	Tile.new(Vector2i(16, 3), 0), # Walkable
 	Tile.new(Vector2i(1, 5), 0), # Wall
-	Tile.new(Vector2i(0, 0), 1), # Battery
-	Tile.new(Vector2i(2, 0), 1), # Windup
 	Tile.new(Vector2i(0, 2), 1), # Water
 	Tile.new(Vector2i(2, 2), 1), # Bread
+	Tile.new(Vector2i(0, 0), 1), # Battery
+	Tile.new(Vector2i(2, 0), 1), # Windup
+	Tile.new(Vector2i(0, 0), 4), # Bed
 	Tile.new(Vector2i(0, 0), 3), # Landing pad
-	Tile.new(Vector2i(0, 0), 4), # Home
 ]
 
 var selected_structure: int = 0

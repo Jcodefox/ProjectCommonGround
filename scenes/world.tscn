@@ -108,3 +108,56 @@ offset_top = 20.0
 offset_bottom = 46.0
 grow_horizontal = 0
 text = "0 FPS"
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Base Controls" type="Label" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+text = "WASD to move around
+E to enter and exit the bulldozer (only when touching it)
+Shift + Scroll to zoom
+Point at citizens to see their stats"
+
+[node name="Bulldozer Controls" type="Label" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+text = "Scroll (without shift) to change what tile you are holding
+Left click to place held tile
+Right click to remove tile under cursor
+E to enter and exit the bulldozer (only when touching it)"
+
+[node name="Citizens" type="Label" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+text = "There are four types of citizens:
+    The human, who looks like a normal human and needs food and water.
+    The bird thing, the green thing that needs to be redrawn. Needs food and water.
+    The snow creature, a white rabbit looking thing with a ice skate built into it's chest. Needs food and water.
+    The robot, looks like a robot. Beep boop. Needs battery and windup.
+Letting any citizens die will yield a fine of $1000, so try to keep them alive.
+Point at a citizen to see their current stats."
+
+[node name="Building" type="Label" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+text = "You need to be in a bulldozer to build.
+In order (if scrolling upward) you can build:
+    Walkable terrain, the only kind of terrain citizens will walk on.
+    Walls, which citizens will not walk on.
+    The water stand, for citizens to drink water at.
+    The food stand, for citizens to eat food at.
+    The battery stand, for recharging a robot's battery.
+    The windup stand, for winding up a robot.
+    The bed, a citizen will return to their bed when they aren't doing anything else.
+    The landing pad, new citizens arrive at landing pads."
+
+[node name="Hide Help" type="Control" parent="CanvasLayer/TabContainer"]
+layout_mode = 2
