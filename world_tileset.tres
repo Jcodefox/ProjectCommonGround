@@ -1,11 +1,8 @@
-[gd_resource type="TileSet" load_steps=23 format=3 uid="uid://wlf2hwmops3x"]
+[gd_resource type="TileSet" load_steps=22 format=3 uid="uid://wlf2hwmops3x"]
 
 [ext_resource type="Texture2D" uid="uid://djxhd42n2vdo0" path="res://sprites/tiles_packed_1.png" id="1_mwyfa"]
 [ext_resource type="Texture2D" uid="uid://bkc4ofg7f88o" path="res://sprites/glass.png" id="2_0f1uy"]
 [ext_resource type="Texture2D" uid="uid://by1qddy7ntq37" path="res://sprites/stands.png" id="2_bnt2r"]
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_aljne"]
-tile_data = PackedInt32Array(0, 786432, 0, 65536, 786432, 1, 131072, 786432, 2, 1, 851968, 0, 65537, 851968, 1, 131073, 851968, 2, 196609, 851968, 3, 2, 917504, 0, 65538, 917504, 1, 131074, 917504, 2, 196610, 917504, 3, 3, 983040, 0, 65539, 983040, 1, 131075, 983040, 2)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jiul5"]
 
@@ -648,6 +645,8 @@ texture = ExtResource("1_mwyfa")
 16:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 16:3/0/physics_layer_0/angular_velocity = 0.0
 16:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_m4wvv")
+16:3/0/custom_data_0 = 5
+16:3/0/custom_data_1 = 2
 17:3/0 = 0
 17:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 17:3/0/physics_layer_0/angular_velocity = 0.0
@@ -1095,6 +1094,8 @@ texture = ExtResource("1_mwyfa")
 1:5/0/physics_layer_0/angular_velocity = 0.0
 1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, 8, 8, 8, -8, -8, -8)
 1:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_jiul5")
+1:5/0/custom_data_0 = 5
+1:5/0/custom_data_1 = 2
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kivoq"]
 texture = ExtResource("2_bnt2r")
@@ -1102,18 +1103,26 @@ texture = ExtResource("2_bnt2r")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/custom_data_0 = 100
+0:0/0/custom_data_1 = 3
 2:0/size_in_atlas = Vector2i(2, 2)
 2:0/0 = 0
 2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0/custom_data_0 = 100
+2:0/0/custom_data_1 = 3
 2:2/size_in_atlas = Vector2i(2, 2)
 2:2/0 = 0
 2:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 2:2/0/physics_layer_0/angular_velocity = 0.0
+2:2/0/custom_data_0 = 100
+2:2/0/custom_data_1 = 3
 0:2/size_in_atlas = Vector2i(2, 2)
 0:2/0 = 0
 0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:2/0/physics_layer_0/angular_velocity = 0.0
+0:2/0/custom_data_0 = 100
+0:2/0/custom_data_1 = 3
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_wbxc7"]
 
@@ -1130,7 +1139,10 @@ terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Ground"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 navigation_layer_0/layers = 1
+custom_data_layer_0/name = "price"
+custom_data_layer_0/type = 2
+custom_data_layer_1/name = "place_layer"
+custom_data_layer_1/type = 2
 sources/0 = SubResource("TileSetAtlasSource_kx402")
 sources/1 = SubResource("TileSetAtlasSource_kivoq")
 sources/2 = SubResource("TileSetAtlasSource_rs7n7")
-pattern_0 = SubResource("TileMapPattern_aljne")
