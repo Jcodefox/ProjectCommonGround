@@ -89,7 +89,7 @@ func do_need_logic(delta: float):
 			fullfilling_need = false
 	
 	if spawn_point == Vector2i(INF, INF):
-		set_target(get_node("../Bulldozer").position + Vector2(5, 9))
+		set_target(get_node("../Bulldozer").position - Vector2(5, 14))
 		return
 	if not fullfilling_need:
 		set_target(spawn_point * 16 + Vector2i(8, 8))
