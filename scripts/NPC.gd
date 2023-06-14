@@ -33,6 +33,8 @@ func check_for_bed():
 		if beds.size() > 0:
 			spawn_point = beds.pick_random()
 			get_node("../Tilemap").bed_data[spawn_point] = self
+		else:
+			spawn_point = Vector2i(INF, INF)
 	get_tree().create_timer(1).timeout.connect(check_for_bed)
 
 func _ready() -> void:
@@ -85,8 +87,11 @@ func do_need_logic(delta: float):
 		need.value = clamp(need.value, 0, need.max_value)
 		if need.value == need.max_value:
 			fullfilling_need = false
-
-	if not fullfilling_need and spawn_point != Vector2i(INF, INF):
+	
+	if spawn_point == Vector2i(INF, INF):
+		set_target(get_node("../Bulldozer").position + Vector2(5, 9))
+		return
+	if not fullfilling_need:
 		set_target(spawn_point * 16 + Vector2i(8, 8))
 
 func calculate_movement():

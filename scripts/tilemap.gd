@@ -110,6 +110,8 @@ func _process(delta: float) -> void:
 
 func dig(location: Vector2i, layer: int):
 	var checked_cell: Vector2i = get_cell_atlas_coords(layer, location)
+	if checked_cell == placeable_tiles[6].tileset_location and get_cell_source_id(layer, location) == placeable_tiles[6].tileset_src_id:
+		bed_data.erase(location)
 	if checked_cell != Vector2i(-1, -1):
 		GlobalData.change_money_with_pos(get_cell_tile_data(layer, location).get_custom_data("price"), location * 16)
 		erase_cell(layer, location)

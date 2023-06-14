@@ -37,9 +37,9 @@ func change_money_with_pos(change_amount: int, pos: Vector2=Vector2(-500000,-500
 
 func get_available_beds() -> Array[Vector2i]:
 	var beds: Array[Vector2i] = tilemap.get_used_cells_by_id(3, 4, Vector2i.ZERO)
-	for bed in beds:
-		if tilemap.bed_data[bed] != null:
-			beds.erase(bed)
+	for i in range(beds.size() -1, -1, -1):
+		if tilemap.bed_data[beds[i]] != null:
+			beds.remove_at(i)
 	return beds
 
 func get_stands_of_type(type: String) -> Array[Vector2i]:
