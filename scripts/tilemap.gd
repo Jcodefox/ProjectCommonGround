@@ -19,6 +19,7 @@ var placeable_tiles: Array[Tile] = [
 	Tile.new(Vector2i(2, 0), 1), # Windup
 	Tile.new(Vector2i(0, 0), 4), # Bed
 	Tile.new(Vector2i(0, 0), 3), # Landing pad
+	Tile.new(Vector2i(0, 0), 5), # Plant
 ]
 
 var selected_structure: int = 0
@@ -38,7 +39,7 @@ func _ready() -> void:
 	get_tree().create_timer(5).timeout.connect(spawn_citizen)
 
 func spawn_citizen() -> void:
-	var landing_pads: Array[Vector2i] = get_used_cells(4)
+	var landing_pads: Array[Vector2i] = get_used_cells_by_id(3, 3, Vector2i.ZERO)
 	get_tree().create_timer(max(1, 10 - landing_pads.size())).timeout.connect(spawn_citizen)
 	if npc_prefabs.size() <= 0:
 		return
