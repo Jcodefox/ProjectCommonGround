@@ -149,7 +149,8 @@ In order (if scrolling upward) you can build:
     The battery stand, for recharging a robot's battery.
     The windup stand, for winding up a robot.
     The bed, a citizen will return to their bed when they aren't doing anything else.
-    The landing pad, new citizens arrive at landing pads."
+    The landing pad, new citizens arrive at landing pads.
+    The plant, you only see it do things when you are imagining it's doing something."
 
 [node name="Hide Help" type="Control" parent="CanvasLayer/TabContainer"]
 visible = false
