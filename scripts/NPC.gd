@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const SPEED = 80.0
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
-@onready var spawn_point: Vector2 = position
+@onready var spawn_point: Vector2i = Vector2i(INF, INF)
 @onready var sqrt_path_max_distance: float = sqrt(nav.path_max_distance)
 
 class Need:
@@ -28,16 +28,15 @@ var needs: Array[Need] = [
 ]
 
 func check_for_bed():
-	print("Bed logic")
-	if get_node("../Tilemap").get_cell_atlas_coords(3, (spawn_point - Vector2(8, 8)) / 16) != Vector2i(0, 0):
-		var beds: Array[Vector2i] = GlobalData.get_beds()
+	if get_node("../Tilemap").get_cell_atlas_coords(3, spawn_point) != Vector2i(0, 0):
+		var beds: Array[Vector2i] = GlobalData.get_available_beds()
 		if beds.size() > 0:
 			spawn_point = beds.pick_random()
+			get_node("../Tilemap").bed_data[spawn_point] = self
 	get_tree().create_timer(1).timeout.connect(check_for_bed)
 
 func _ready() -> void:
 	get_tree().create_timer(1).timeout.connect(check_for_bed)
-	#spawn_point = Vector2(randf_range(-200.0, 200.0), randf_range(-200.0, 200.0))
 	nav.connect("link_reached", hit_link)
 	for need in needs:
 		need.value = need.max_value
@@ -87,8 +86,8 @@ func do_need_logic(delta: float):
 		if need.value == need.max_value:
 			fullfilling_need = false
 
-	if not fullfilling_need:
-		set_target(spawn_point)
+	if not fullfilling_need and spawn_point != Vector2i(INF, INF):
+		set_target(spawn_point * 16 + Vector2i(8, 8))
 
 func calculate_movement():
 	# Follow pathfinding

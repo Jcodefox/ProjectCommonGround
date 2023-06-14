@@ -22,6 +22,8 @@ var placeable_tiles: Array[Tile] = [
 	Tile.new(Vector2i(0, 0), 5), # Plant
 ]
 
+var bed_data: Dictionary = {}
+
 var selected_structure: int = 0
 
 @export var npc_prefabs: Array[PackedScene] = []
@@ -101,6 +103,8 @@ func _process(delta: float) -> void:
 		if GlobalData.purchase(price, mouse_pos * 16):
 			dig(mouse_pos, layer)
 			set_cell(layer, mouse_pos, selected_tile.tileset_src_id, selected_tile.tileset_location)
+			if selected_structure == 6:
+				bed_data[mouse_pos] = null
 	if Input.is_action_pressed("dig"):
 		dig(mouse_pos, layer)
 
