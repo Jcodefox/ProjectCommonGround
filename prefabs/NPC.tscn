@@ -11,7 +11,8 @@ size = Vector2(14, 33)
 
 [node name="NPC" type="CharacterBody2D"]
 y_sort_enabled = true
-collision_layer = 2
+collision_layer = 0
+collision_mask = 0
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_aryiw")
