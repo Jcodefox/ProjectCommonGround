@@ -1,0 +1,40 @@
+Keep in mind:
+    Figure out what the core elements are. Strip down game. Build core elements. Go from there.
+    Web of dependencies.
+    Restrictions. Restrictions.
+    MAKE THE GAME REWARDING.
+
+Foundational ideas:
+    Have some types citizens be "pathways" to other types citizens.
+    Actual infrastructure.
+    Make it a factory game, kinda.
+    Materials/Resources.
+
+In between:
+    Citizens keep coming.
+    People leave.
+    Early game stuff is not built very well, but tends to become backbone.
+    Rating system.
+    Larger scale? Infinite?
+    Existing support materials on planet.
+    Have the player have needs.
+    Start with limited supplies.
+    More types of citizens with more variety and overlap.
+    Build infrastructure for conflicting needs.
+
+Non-Foundational ideas:
+    If there is nowhere to land the player gets punished in some way. Maybe the lander crashes after flying around for a while.
+    The higher the rating of the town, the more often landers come.
+    With extremely low ratings landers only come if there is a landing area, and only landers from this planet.
+    Different levels of landing pads for different size ships.
+    Talk to citizens.
+    Play as different species.
+    Repair robots.
+    Plants as citizens.
+    Robots are built by player.
+    Items go bad maybe?
+    Temporary housing. Quick housing for citizens inbetween homes?
+    Make NPCs wander around complaining when they don't have beds.
+    Extra happiness from certain things.
+
+@Blue and @Pixer helped with this.

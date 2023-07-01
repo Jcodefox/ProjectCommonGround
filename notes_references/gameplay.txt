@@ -1,0 +1,28 @@
+You arrive on an earth-like planet with a few basic supplies.
+Build a food stand with basic supplies.
+Gather some berries and restock the food stand with them.
+Build a water stand with basic supplies.
+Get a bucket of water and restock the water stand.
+Build a basic home with basic supplies.
+Scout out a place to build a basic landing area, and actually build it.
+A human lands at your landing area and takes the foraging job or the water collection job.
+Build another basic home.
+
+Humans collect water for everyone
+Plants grow lettuce
+Snow-cats turn lettuce into salad
+
+
+Humans provide the ability to use tools and carry things.
+Humans need food and water.
+
+Snow-cats can cut things with chest blade.
+Snow-cats need food and water.
+
+Plant citizens provides lettuce.
+Plant citizens need water and sunlight.
+
+
+
+Robots provide the ability to use tools and carry things.
+Robots need charging and occasional repairs.
