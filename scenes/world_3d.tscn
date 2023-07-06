@@ -1,0 +1,226 @@
+[gd_scene load_steps=13 format=3 uid="uid://dfnfokxxf00en"]
+
+[ext_resource type="Script" path="res://scripts/player_3d.gd" id="1_5d7m1"]
+[ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://sprites/citizens.png" id="1_nyyci"]
+[ext_resource type="Texture2D" uid="uid://oo2phbyljlvu" path="res://sprites/potted_plant.png" id="3_3g480"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_p4etx"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_mi76p"]
+sky_material = SubResource("ProceduralSkyMaterial_p4etx")
+
+[sub_resource type="Environment" id="Environment_6hmly"]
+background_mode = 2
+sky = SubResource("Sky_mi76p")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lxt0f"]
+albedo_color = Color(0, 0.607843, 0, 1)
+metallic_specular = 0.25
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m0r6p"]
+radius = 0.3
+height = 1.6
+
+[sub_resource type="Gradient" id="Gradient_af7ti"]
+interpolation_mode = 1
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5585g"]
+gradient = SubResource("Gradient_af7ti")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.730769, 0.217949)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3hi80"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ippaq"]
+radius = 0.2
+height = 0.8
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6hmly")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(32, 1, 32)
+material = SubResource("StandardMaterial3D_lxt0f")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Money" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -55.0
+offset_bottom = 26.0
+grow_horizontal = 0
+text = "$10000"
+
+[node name="Citizens" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -55.0
+offset_top = 40.0
+offset_bottom = 66.0
+grow_horizontal = 0
+text = "4 Citizens"
+
+[node name="FPS" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -55.0
+offset_top = 20.0
+offset_bottom = 46.0
+grow_horizontal = 0
+text = "0 FPS"
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Base Controls" type="Label" parent="CanvasLayer/TabContainer"]
+layout_mode = 2
+text = "WASD to move around
+E to enter and exit the bulldozer (only when touching it)
+Shift + Scroll to zoom
+Point at citizens to see their stats"
+
+[node name="Bulldozer Controls" type="Label" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+text = "Scroll (without shift) to change what tile you are holding
+Left click to place held tile
+Right click to remove tile under cursor
+E to enter and exit the bulldozer (only when touching it)"
+
+[node name="Citizens" type="Label" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+text = "There are four types of citizens:
+    The human, who looks like a normal human and needs food and water.
+    The bird thing, the green thing that needs to be redrawn. Needs food and water.
+    The snow creature, a white rabbit looking thing with a ice skate built into it's chest. Needs food and water.
+    The robot, looks like a robot. Beep boop. Needs battery and windup.
+Letting any citizens die will yield a fine of $1000, so try to keep them alive.
+Point at a citizen to see their current stats."
+
+[node name="Building" type="Label" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+text = "You need to be in a bulldozer to build.
+In order (if scrolling upward) you can build:
+    Walkable terrain, the only kind of terrain citizens will walk on.
+    Walls, which citizens will not walk on.
+    The water stand, for citizens to drink water at.
+    The food stand, for citizens to eat food at.
+    The battery stand, for recharging a robot's battery.
+    The windup stand, for winding up a robot.
+    The bed, a citizen will return to their bed when they aren't doing anything else.
+    The landing pad, new citizens arrive at landing pads.
+    The plant, you only see it do things when you are imagining it's doing something."
+
+[node name="Hide Help" type="Control" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.801646, 0)
+script = ExtResource("1_5d7m1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_m0r6p")
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D"]
+pixel_size = 0.05
+billboard = 2
+texture_filter = 0
+texture = ExtResource("1_nyyci")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 2, 4)
+
+[node name="Decal" type="Decal" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.79, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+
+[node name="CharacterBody3D2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.8, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+shape = SubResource("SphereShape3D_3hi80")
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+pixel_size = 0.05
+billboard = 2
+texture_filter = 0
+texture = ExtResource("1_nyyci")
+region_enabled = true
+region_rect = Rect2(32, 32, 32, 32)
+
+[node name="Decal" type="Decal" parent="CharacterBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.78835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+
+[node name="CharacterBody3D3" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.8, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D3"]
+shape = SubResource("CapsuleShape3D_m0r6p")
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D3"]
+pixel_size = 0.05
+billboard = 2
+texture_filter = 0
+texture = ExtResource("1_nyyci")
+region_enabled = true
+region_rect = Rect2(0, 32, 32, 32)
+
+[node name="Decal" type="Decal" parent="CharacterBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.78835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+
+[node name="CharacterBody3D4" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D4"]
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D4"]
+pixel_size = 0.05
+billboard = 2
+texture_filter = 0
+texture = ExtResource("3_3g480")
+
+[node name="Decal" type="Decal" parent="CharacterBody3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
