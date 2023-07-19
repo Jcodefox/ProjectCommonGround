@@ -52,7 +52,6 @@ position = Vector2(216, 30)
 collision_layer = 256
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="Player"]
-estimate_radius = false
 radius = 6.0
 
 [node name="Bulldozer" type="Area2D" parent="." groups=["bulldozer"]]

@@ -1,40 +1,40 @@
 Human:
-    Carries things
-    Uses tools
-    Eats:
-        Water, Greens
+	Carries things
+	Uses tools
+	Eats:
+		Water, Greens
 Snowcat thing:
-    Cuts things
-    Eats:
-        Water, Greens
+	Cuts things
+	Eats:
+		Water, Greens
 Plant:
-    Grows greens
-    Eats:
-        Water
+	Grows greens
+	Eats:
+		Water
 Elephant thing:
-    Carries liquids
-    Eats:
-        Gravel, Sand, Etc
+	Carries liquids
+	Eats:
+		Gravel, Sand, Etc
 Burning mouse thing:
-    Heats things up
-    Cooks things
-    Eats:
-        Wood, Oil, Flameables
+	Heats things up
+	Cooks things
+	Eats:
+		Wood, Oil, Flameables
 Rock like thing:
-    Pulverizes things
-    Eats:
-        Wood, Ice
+	Pulverizes things
+	Eats:
+		Wood, Ice
 Hammer head goat thing:
-    Chops trees
-    Eats:
-        Water, Greens
+	Chops trees
+	Eats:
+		Water, Greens
 
 
 Resources:
-    Gravel: Provided by rock thing
-    Sand: Provided by rock thing
-    Water: Provided by Earth, carried by elephant thing and human
-    Oil: Provided by Earth, carried by elephant thing and human
-    Greens: Provided by Plant
-    Ice: ...
-    Wood: Provided from hammer head goat thing.
+	Gravel: Provided by rock thing
+	Sand: Provided by rock thing
+	Water: Provided by Earth, carried by elephant thing and human
+	Oil: Provided by Earth, carried by elephant thing and human
+	Greens: Provided by Plant
+	Ice: ...
+	Wood: Provided from hammer head goat thing.
