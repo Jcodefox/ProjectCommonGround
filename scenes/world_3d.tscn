@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dfnfokxxf00en"]
+[gd_scene load_steps=22 format=3 uid="uid://dfnfokxxf00en"]
 
 [ext_resource type="Script" path="res://scripts/player_3d.gd" id="1_5d7m1"]
 [ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://sprites/citizens.png" id="1_nyyci"]
@@ -42,6 +42,23 @@ fill_to = Vector2(0.730769, 0.217949)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ippaq"]
 radius = 0.2
 height = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qqyy"]
+shading_mode = 0
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_a23sj"]
+inner_radius = 0.4
+outer_radius = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kiqob"]
+shading_mode = 0
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ddf7y"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.0
 
 [sub_resource type="Gradient" id="Gradient_e0hen"]
 interpolation_mode = 1
@@ -188,7 +205,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 32, 32)
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 2, 4)
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 1.9, 4)
 
 [node name="Decal" type="Decal" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.79, 0)
@@ -256,8 +273,20 @@ size = Vector3(1, 2, 1)
 texture_albedo = SubResource("GradientTexture2D_5585g")
 upper_fade = 0.01
 
+[node name="Cursor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cursor"]
+transform = Transform3D(1, 0, 0, 0, 1.31134e-08, 1, 0, -0.1, 1.31134e-07, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_1qqyy")
+mesh = SubResource("TorusMesh_a23sj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cursor"]
+transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, -0.5)
+material_override = SubResource("StandardMaterial3D_kiqob")
+mesh = SubResource("CylinderMesh_ddf7y")
+
 [node name="Building" type="CSGCombiner3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 material_override = SubResource("StandardMaterial3D_alqwv")
 collision_layer = 11
 collision_mask = 11
@@ -270,11 +299,6 @@ size = Vector3(1, 3, 1)
 operation = 2
 size = Vector3(0.9, 4.8, 0.9)
 
-[node name="Door" type="CSGBox3D" parent="Building"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0.5)
-operation = 2
-size = Vector3(1, 2, 0.1)
-
 [node name="PlacementArea" type="Area3D" parent="Building"]
 collision_layer = 4
 collision_mask = 4
@@ -282,3 +306,10 @@ collision_mask = 4
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Building/PlacementArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 shape = SubResource("BoxShape3D_q3bje")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+material_override = SubResource("StandardMaterial3D_alqwv")
+operation = 1
+use_collision = true
+collision_layer = 11
+collision_mask = 11
