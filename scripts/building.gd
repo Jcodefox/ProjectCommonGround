@@ -20,9 +20,9 @@ func _physics_process(delta):
 	if not is_placeholder:
 		if Input.is_action_just_pressed("dig"):
 			var result := raycast(was_mouse_pressed, 8)
-			print(result)
-			if result.has("collider"):
-				result["collider"].queue_free()
+#			print(result)
+#			if result.has("collider"):
+#				result["collider"].queue_free()
 		return
 	if Input.is_action_just_pressed("interact"):
 		place_mode = not place_mode
@@ -69,7 +69,7 @@ func _physics_process(delta):
 			get_node("../CSGCombiner3D").add_child(new_building)
 			visible = false
 		was_mouse_pressed = false
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("dig"):
 		var result := raycast(was_mouse_pressed, 4 if was_mouse_pressed else 2)
 		if result.has("position"):
 			var new_door := door_prefab.instantiate()
