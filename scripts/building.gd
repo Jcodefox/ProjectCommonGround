@@ -56,7 +56,7 @@ func _physics_process(delta):
 			position.x = (corner_a.x + corner_b.x) * 0.5
 			position.z = (corner_a.z + corner_b.z) * 0.5
 			$CSGBox3D.size += Vector3(0, height, 0)
-			$CSGBox3D2.size = $CSGBox3D.size - Vector3(0.1, 0.2, 0.1)
+			$CSGBox3D2.size = $CSGBox3D.size - Vector3(0.1, 0.1, 0.1)
 			position.y = abs(mouse_down_pos.y + $CSGBox3D.size.y * 0.5)
 			$PlacementArea.global_position.y = mouse_down_pos.y
 			$PlacementArea/CollisionShape3D.shape.size = abs(Vector3($CSGBox3D.size.x * 2, 0.01, $CSGBox3D.size.z * 2)) + Vector3(10.0, 0.0, 10.0)
@@ -66,15 +66,17 @@ func _physics_process(delta):
 			var new_building := duplicate(7)
 			new_building.get_node("PlacementArea").queue_free()
 			new_building.is_placeholder = false
-			get_node("../CSGCombiner3D").add_child(new_building)
+			new_building.use_collision = true
+			get_node("../").add_child(new_building)
 			visible = false
 		was_mouse_pressed = false
 	if Input.is_action_just_pressed("dig"):
 		var result := raycast(was_mouse_pressed, 4 if was_mouse_pressed else 2)
-		if result.has("position"):
+		if result.has("position") and result["collider"].is_in_group("building"):
 			var new_door := door_prefab.instantiate()
-			new_door.position = result["position"]
-			get_node("../CSGCombiner3D").add_child(new_door)
+			result["collider"].add_child(new_door)
+			new_door.global_position = result["position"]
+			print(result["collider"].get_children())
 			if tmp_result["normal"] != Vector3.UP and tmp_result["normal"] != Vector3.DOWN:
 				new_door.look_at(cursor.position + tmp_result["normal"])
 			else:

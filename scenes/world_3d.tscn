@@ -286,18 +286,17 @@ transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, -0
 material_override = SubResource("StandardMaterial3D_kiqob")
 mesh = SubResource("CylinderMesh_ddf7y")
 
-[node name="Building" type="CSGCombiner3D" parent="."]
+[node name="Building" type="CSGCombiner3D" parent="." groups=["building"]]
 material_override = SubResource("StandardMaterial3D_alqwv")
 collision_layer = 11
 collision_mask = 11
 script = ExtResource("4_qvm6t")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Building"]
-size = Vector3(1, 3, 1)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Building"]
 operation = 2
-size = Vector3(0.9, 4.8, 0.9)
+size = Vector3(0.9, 0.9, 0.9)
 
 [node name="PlacementArea" type="Area3D" parent="Building"]
 collision_layer = 4
@@ -306,10 +305,3 @@ collision_mask = 4
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Building/PlacementArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 shape = SubResource("BoxShape3D_q3bje")
-
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
-material_override = SubResource("StandardMaterial3D_alqwv")
-operation = 1
-use_collision = true
-collision_layer = 11
-collision_mask = 11
