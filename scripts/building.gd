@@ -76,7 +76,6 @@ func _physics_process(delta):
 			var new_door := door_prefab.instantiate()
 			result["collider"].add_child(new_door)
 			new_door.global_position = result["position"]
-			print(result["collider"].get_children())
 			if tmp_result["normal"] != Vector3.UP and tmp_result["normal"] != Vector3.DOWN:
 				new_door.look_at(cursor.position + tmp_result["normal"])
 			else:

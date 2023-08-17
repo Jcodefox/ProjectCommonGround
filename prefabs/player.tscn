@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://dudyb8hofm2c2"]
+
+[ext_resource type="Script" path="res://scripts/player_3d.gd" id="1_e1gcc"]
+[ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://sprites/citizens.png" id="2_qvo8u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m0r6p"]
+radius = 0.3
+height = 1.6
+
+[sub_resource type="Gradient" id="Gradient_af7ti"]
+interpolation_mode = 1
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5585g"]
+gradient = SubResource("Gradient_af7ti")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.730769, 0.217949)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kwuec"]
+size = Vector3(1, 1.6, 1)
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.801646, 0)
+script = ExtResource("1_e1gcc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_m0r6p")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+pixel_size = 0.05
+billboard = 2
+texture_filter = 0
+texture = ExtResource("2_qvo8u")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 1.9, 4)
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.79, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="FloorLocator" type="RayCast3D" parent="."]
+target_position = Vector3(0, -20, 0)
+
+[node name="ItemCollector" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemCollector"]
+shape = SubResource("BoxShape3D_kwuec")

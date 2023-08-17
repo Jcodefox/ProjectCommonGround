@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpas5rmacoeqg"]
+
+[ext_resource type="Script" path="res://scripts/building.gd" id="1_f3h87"]
+
+[sub_resource type="Gradient" id="Gradient_e0hen"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.911111)
+colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7cvx5"]
+gradient = SubResource("Gradient_e0hen")
+width = 256
+height = 256
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+repeat = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_alqwv"]
+albedo_texture = SubResource("GradientTexture2D_7cvx5")
+metallic_specular = 0.0
+emission_enabled = true
+emission_texture = SubResource("GradientTexture2D_7cvx5")
+uv1_triplanar = true
+texture_filter = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q3bje"]
+size = Vector3(5, 0.01, 5)
+
+[node name="Building" type="CSGCombiner3D" groups=["building"]]
+material_override = SubResource("StandardMaterial3D_alqwv")
+collision_layer = 11
+collision_mask = 11
+script = ExtResource("1_f3h87")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+operation = 2
+size = Vector3(0.9, 0.9, 0.9)
+
+[node name="PlacementArea" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlacementArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+shape = SubResource("BoxShape3D_q3bje")

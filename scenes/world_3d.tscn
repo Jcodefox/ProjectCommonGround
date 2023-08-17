@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://dfnfokxxf00en"]
+[gd_scene load_steps=14 format=3 uid="uid://dfnfokxxf00en"]
 
-[ext_resource type="Script" path="res://scripts/player_3d.gd" id="1_5d7m1"]
+[ext_resource type="PackedScene" uid="uid://dudyb8hofm2c2" path="res://prefabs/player.tscn" id="1_egv2e"]
 [ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://sprites/citizens.png" id="1_nyyci"]
 [ext_resource type="Texture2D" uid="uid://oo2phbyljlvu" path="res://sprites/potted_plant.png" id="3_3g480"]
-[ext_resource type="Script" path="res://scripts/building.gd" id="4_qvm6t"]
+[ext_resource type="Script" path="res://scripts/floating.gd" id="3_ce36q"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_p4etx"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -23,9 +23,7 @@ tonemap_mode = 2
 albedo_color = Color(0, 0.384314, 0, 1)
 metallic_specular = 0.25
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m0r6p"]
-radius = 0.3
-height = 1.6
+[sub_resource type="SphereShape3D" id="SphereShape3D_3hi80"]
 
 [sub_resource type="Gradient" id="Gradient_af7ti"]
 interpolation_mode = 1
@@ -37,53 +35,13 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.730769, 0.217949)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_3hi80"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m0r6p"]
+radius = 0.3
+height = 1.6
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ippaq"]
 radius = 0.2
 height = 0.8
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qqyy"]
-shading_mode = 0
-albedo_color = Color(1, 0, 1, 1)
-
-[sub_resource type="TorusMesh" id="TorusMesh_a23sj"]
-inner_radius = 0.4
-outer_radius = 0.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kiqob"]
-shading_mode = 0
-albedo_color = Color(0, 0, 1, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_ddf7y"]
-top_radius = 0.05
-bottom_radius = 0.05
-height = 1.0
-
-[sub_resource type="Gradient" id="Gradient_e0hen"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.911111)
-colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_7cvx5"]
-gradient = SubResource("Gradient_e0hen")
-width = 256
-height = 256
-fill = 2
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0, 0)
-repeat = 2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_alqwv"]
-albedo_texture = SubResource("GradientTexture2D_7cvx5")
-metallic_specular = 0.0
-emission_enabled = true
-emission_texture = SubResource("GradientTexture2D_7cvx5")
-uv1_triplanar = true
-texture_filter = 2
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_q3bje"]
-size = Vector3(5, 0.01, 5)
 
 [node name="Node3D" type="Node3D"]
 
@@ -97,6 +55,7 @@ shadow_opacity = 0.9
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+layers = 3
 use_collision = true
 collision_layer = 3
 collision_mask = 3
@@ -189,29 +148,7 @@ In order (if scrolling upward) you can build:
 visible = false
 layout_mode = 2
 
-[node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.801646, 0)
-script = ExtResource("1_5d7m1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-shape = SubResource("CapsuleShape3D_m0r6p")
-
-[node name="Sprite3D" type="Sprite3D" parent="Player"]
-pixel_size = 0.05
-billboard = 2
-texture_filter = 0
-texture = ExtResource("1_nyyci")
-region_enabled = true
-region_rect = Rect2(0, 0, 32, 32)
-
-[node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 1.9, 4)
-
-[node name="Decal" type="Decal" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.79, 0)
-size = Vector3(1, 2, 1)
-texture_albedo = SubResource("GradientTexture2D_5585g")
-upper_fade = 0.01
+[node name="Player" parent="." instance=ExtResource("1_egv2e")]
 
 [node name="CharacterBody3D2" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.8, 0)
@@ -234,6 +171,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.78835, 0)
 size = Vector3(1, 2, 1)
 texture_albedo = SubResource("GradientTexture2D_5585g")
 upper_fade = 0.01
+cull_mask = 2
 
 [node name="CharacterBody3D3" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.8, 0)
@@ -254,54 +192,229 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.78835, 0)
 size = Vector3(1, 2, 1)
 texture_albedo = SubResource("GradientTexture2D_5585g")
 upper_fade = 0.01
+cull_mask = 2
 
-[node name="Plant" type="CharacterBody3D" parent="."]
+[node name="Plant" type="Area3D" parent="." groups=["item"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Plant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("CapsuleShape3D_ippaq")
 
 [node name="Sprite3D" type="Sprite3D" parent="Plant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 pixel_size = 0.05
-billboard = 2
 texture_filter = 0
 texture = ExtResource("3_3g480")
 
-[node name="Decal" type="Decal" parent="Plant"]
+[node name="Shadow" type="Decal" parent="Plant"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
 size = Vector3(1, 2, 1)
 texture_albedo = SubResource("GradientTexture2D_5585g")
 upper_fade = 0.01
+cull_mask = 2
 
-[node name="Cursor" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2)
+[node name="NoGrabCooldown" type="Timer" parent="Plant"]
+one_shot = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Cursor"]
-transform = Transform3D(1, 0, 0, 0, 1.31134e-08, 1, 0, -0.1, 1.31134e-07, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_1qqyy")
-mesh = SubResource("TorusMesh_a23sj")
+[node name="Plant2" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cursor"]
-transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, -0.5)
-material_override = SubResource("StandardMaterial3D_kiqob")
-mesh = SubResource("CylinderMesh_ddf7y")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
 
-[node name="Building" type="CSGCombiner3D" parent="." groups=["building"]]
-material_override = SubResource("StandardMaterial3D_alqwv")
-collision_layer = 11
-collision_mask = 11
-script = ExtResource("4_qvm6t")
+[node name="Sprite3D" type="Sprite3D" parent="Plant2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("3_3g480")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Building"]
+[node name="Shadow" type="Decal" parent="Plant2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Building"]
-operation = 2
-size = Vector3(0.9, 0.9, 0.9)
+[node name="NoGrabCooldown" type="Timer" parent="Plant2"]
+one_shot = true
 
-[node name="PlacementArea" type="Area3D" parent="Building"]
-collision_layer = 4
-collision_mask = 4
+[node name="Plant3" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Building/PlacementArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
-shape = SubResource("BoxShape3D_q3bje")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="Plant3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("3_3g480")
+
+[node name="Shadow" type="Decal" parent="Plant3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="NoGrabCooldown" type="Timer" parent="Plant3"]
+one_shot = true
+
+[node name="Plant4" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="Plant4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("3_3g480")
+
+[node name="Shadow" type="Decal" parent="Plant4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="NoGrabCooldown" type="Timer" parent="Plant4"]
+one_shot = true
+
+[node name="Plant5" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="Plant5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("3_3g480")
+
+[node name="Shadow" type="Decal" parent="Plant5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="NoGrabCooldown" type="Timer" parent="Plant5"]
+one_shot = true
+
+[node name="Plant6" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="Plant6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("3_3g480")
+
+[node name="Shadow" type="Decal" parent="Plant6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="NoGrabCooldown" type="Timer" parent="Plant6"]
+one_shot = true
+
+[node name="Plant7" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="Plant7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("3_3g480")
+
+[node name="Shadow" type="Decal" parent="Plant7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="NoGrabCooldown" type="Timer" parent="Plant7"]
+one_shot = true
+
+[node name="Plant8" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="Plant8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("3_3g480")
+
+[node name="Shadow" type="Decal" parent="Plant8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="NoGrabCooldown" type="Timer" parent="Plant8"]
+one_shot = true
+
+[node name="Plant9" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("3_ce36q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="Plant9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("3_3g480")
+
+[node name="Shadow" type="Decal" parent="Plant9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="NoGrabCooldown" type="Timer" parent="Plant9"]
+one_shot = true
