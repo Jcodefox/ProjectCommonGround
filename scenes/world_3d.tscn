@@ -1,10 +1,12 @@
 [gd_scene load_steps=15 format=3 uid="uid://dfnfokxxf00en"]
 
 [ext_resource type="PackedScene" uid="uid://dudyb8hofm2c2" path="res://prefabs/player.tscn" id="1_egv2e"]
-[ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://sprites/citizens.png" id="1_nyyci"]
-[ext_resource type="Texture2D" uid="uid://oo2phbyljlvu" path="res://sprites/potted_plant.png" id="3_3g480"]
+[ext_resource type="Script" path="res://scripts/inventory_ui.gd" id="1_tfvwa"]
+[ext_resource type="Script" path="res://scripts/inventory.gd" id="2_7o0hy"]
+[ext_resource type="PackedScene" uid="uid://r0fv0hwrfavt" path="res://prefabs/citizen.tscn" id="2_vitnh"]
 [ext_resource type="Script" path="res://scripts/floating.gd" id="3_ce36q"]
-[ext_resource type="Script" path="res://scripts/inventory.gd" id="5_lydaw"]
+[ext_resource type="PackedScene" uid="uid://dtjjpohnjxhcc" path="res://prefabs/world_item.tscn" id="3_o6r5j"]
+[ext_resource type="Texture2D" uid="uid://c3atiljwdgtjf" path="res://sprites/bed.png" id="6_thw7v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_p4etx"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -24,7 +26,9 @@ tonemap_mode = 2
 albedo_color = Color(0, 0.384314, 0, 1)
 metallic_specular = 0.25
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_3hi80"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ippaq"]
+radius = 0.2
+height = 0.8
 
 [sub_resource type="Gradient" id="Gradient_af7ti"]
 interpolation_mode = 1
@@ -36,32 +40,7 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.730769, 0.217949)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m0r6p"]
-radius = 0.3
-height = 1.6
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ippaq"]
-radius = 0.2
-height = 0.8
-
 [node name="Node3D" type="Node3D"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_6hmly")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.837902, -0.472695, 0.272909, 1.47563e-08, 0.499998, 0.866027, -0.545821, -0.725645, 0.418949, 0, 0, 0)
-shadow_enabled = true
-shadow_opacity = 0.9
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-layers = 3
-use_collision = true
-collision_layer = 3
-collision_mask = 3
-size = Vector3(32, 1, 32)
-material = SubResource("StandardMaterial3D_lxt0f")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -149,76 +128,91 @@ In order (if scrolling upward) you can build:
 visible = false
 layout_mode = 2
 
+[node name="InventoryUI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="PanelContainer" type="PanelContainer" parent="InventoryUI"]
+custom_minimum_size = Vector2(200, 200)
+offset_left = 425.0
+offset_top = 170.0
+offset_right = 425.0
+offset_bottom = 170.0
+
+[node name="InventoryUI" type="GridContainer" parent="InventoryUI/PanelContainer"]
+layout_mode = 2
+columns = 8
+script = ExtResource("1_tfvwa")
+
+[node name="PanelContainer2" type="PanelContainer" parent="InventoryUI"]
+custom_minimum_size = Vector2(200, 200)
+offset_left = 708.0
+offset_top = 190.0
+offset_right = 908.0
+offset_bottom = 390.0
+
+[node name="InventoryUI" type="GridContainer" parent="InventoryUI/PanelContainer2"]
+layout_mode = 2
+columns = 8
+script = ExtResource("1_tfvwa")
+
+[node name="Inventory" type="Node" parent="InventoryUI" node_paths=PackedStringArray("attached_ui")]
+script = ExtResource("2_7o0hy")
+attached_ui = NodePath("../PanelContainer2/InventoryUI")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6hmly")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.837902, -0.472695, 0.272909, 1.47563e-08, 0.499998, 0.866027, -0.545821, -0.725645, 0.418949, 0, 0, 0)
+shadow_enabled = true
+shadow_opacity = 0.9
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+layers = 3
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(32, 1, 32)
+material = SubResource("StandardMaterial3D_lxt0f")
+
 [node name="Player" parent="." instance=ExtResource("1_egv2e")]
 
-[node name="CharacterBody3D2" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.8, 0)
+[node name="Citizen" parent="." instance=ExtResource("2_vitnh")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
-shape = SubResource("SphereShape3D_3hi80")
+[node name="Plant" parent="." instance=ExtResource("3_o6r5j")]
 
-[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
-pixel_size = 0.05
-billboard = 2
-texture_filter = 0
-texture = ExtResource("1_nyyci")
-region_enabled = true
-region_rect = Rect2(32, 32, 32, 32)
+[node name="Plant2" parent="." instance=ExtResource("3_o6r5j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.4, 0)
 
-[node name="Decal" type="Decal" parent="CharacterBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.78835, 0)
-size = Vector3(1, 2, 1)
-texture_albedo = SubResource("GradientTexture2D_5585g")
-upper_fade = 0.01
-cull_mask = 2
+[node name="Plant3" parent="." instance=ExtResource("3_o6r5j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.4, 0)
 
-[node name="CharacterBody3D3" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.8, 0)
+[node name="Plant4" parent="." instance=ExtResource("3_o6r5j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.4, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D3"]
-shape = SubResource("CapsuleShape3D_m0r6p")
-
-[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D3"]
-pixel_size = 0.05
-billboard = 2
-texture_filter = 0
-texture = ExtResource("1_nyyci")
-region_enabled = true
-region_rect = Rect2(0, 32, 32, 32)
-
-[node name="Decal" type="Decal" parent="CharacterBody3D3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.78835, 0)
-size = Vector3(1, 2, 1)
-texture_albedo = SubResource("GradientTexture2D_5585g")
-upper_fade = 0.01
-cull_mask = 2
-
-[node name="Plant" type="Area3D" parent="." groups=["item"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+[node name="Plant5" type="Area3D" parent="." groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.4, 0)
 monitoring = false
 script = ExtResource("3_ce36q")
+metadata/item_type = "Plant"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("CapsuleShape3D_ippaq")
 
-[node name="Sprite3D" type="Sprite3D" parent="Plant"]
+[node name="Sprite3D" type="Sprite3D" parent="Plant5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 pixel_size = 0.05
 texture_filter = 0
-texture = ExtResource("3_3g480")
+texture = ExtResource("6_thw7v")
 
-[node name="Shadow" type="Decal" parent="Plant"]
+[node name="Shadow" type="Decal" parent="Plant5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
 size = Vector3(1, 2, 1)
 texture_albedo = SubResource("GradientTexture2D_5585g")
 upper_fade = 0.01
 cull_mask = 2
 
-[node name="NoGrabCooldown" type="Timer" parent="Plant"]
+[node name="NoGrabCooldown" type="Timer" parent="Plant5"]
 one_shot = true
-
-[node name="Inventory" type="Node" parent="."]
-script = ExtResource("5_lydaw")

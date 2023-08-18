@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dudyb8hofm2c2"]
+[gd_scene load_steps=9 format=3 uid="uid://dudyb8hofm2c2"]
 
 [ext_resource type="Script" path="res://scripts/player_3d.gd" id="1_e1gcc"]
+[ext_resource type="PackedScene" uid="uid://dtjjpohnjxhcc" path="res://prefabs/world_item.tscn" id="2_adt18"]
 [ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://sprites/citizens.png" id="2_qvo8u"]
+[ext_resource type="Script" path="res://scripts/inventory.gd" id="3_311vl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m0r6p"]
 radius = 0.3
@@ -23,6 +25,7 @@ size = Vector3(1, 1.6, 1)
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.801646, 0)
 script = ExtResource("1_e1gcc")
+world_item_prefab = ExtResource("2_adt18")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_m0r6p")
@@ -52,3 +55,6 @@ target_position = Vector3(0, -20, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ItemCollector"]
 shape = SubResource("BoxShape3D_kwuec")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("3_311vl")

@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtjjpohnjxhcc"]
+
+[ext_resource type="Script" path="res://scripts/floating.gd" id="1_dqigl"]
+[ext_resource type="Texture2D" uid="uid://oo2phbyljlvu" path="res://sprites/potted_plant.png" id="2_4od0v"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ippaq"]
+radius = 0.2
+height = 0.8
+
+[sub_resource type="Gradient" id="Gradient_af7ti"]
+interpolation_mode = 1
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5585g"]
+gradient = SubResource("Gradient_af7ti")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.730769, 0.217949)
+
+[node name="Item" type="Area3D" groups=["item"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.4, 0)
+monitoring = false
+script = ExtResource("1_dqigl")
+metadata/item_type = "Plant"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ippaq")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.05
+texture_filter = 0
+texture = ExtResource("2_4od0v")
+
+[node name="Shadow" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = SubResource("GradientTexture2D_5585g")
+upper_fade = 0.01
+cull_mask = 2
+
+[node name="NoGrabCooldown" type="Timer" parent="."]
+one_shot = true
