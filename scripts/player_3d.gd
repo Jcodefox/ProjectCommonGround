@@ -3,6 +3,10 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
+@export var building_types: Array[PackedScene] = []
+var held_item: int = 0
+var build_mode: bool = false
+
 @export var world_item_prefab: PackedScene
 
 @onready var inventory_ui: CanvasLayer = get_node("../InventoryUI")
@@ -40,6 +44,9 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
 	move_and_slide()
+	
+	if Input.is_action_just_pressed("build_mode"):
+		build_mode = not build_mode
 	
 	if Input.is_action_just_pressed("drop"):
 		if held_items.size() > 0:

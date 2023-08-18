@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://r0fv0hwrfavt"]
+[gd_scene load_steps=6 format=3 uid="uid://r0fv0hwrfavt"]
 
 [ext_resource type="Texture2D" uid="uid://b5pf1viibjqmx" path="res://sprites/citizens.png" id="1_hja11"]
+[ext_resource type="Script" path="res://scripts/inventory.gd" id="2_e1eni"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m0r6p"]
 radius = 0.3
@@ -36,3 +37,6 @@ size = Vector3(1, 2, 1)
 texture_albedo = SubResource("GradientTexture2D_5585g")
 upper_fade = 0.01
 cull_mask = 2
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("2_e1eni")

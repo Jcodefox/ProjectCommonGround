@@ -1,12 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://dfnfokxxf00en"]
+[gd_scene load_steps=10 format=3 uid="uid://dfnfokxxf00en"]
 
 [ext_resource type="PackedScene" uid="uid://dudyb8hofm2c2" path="res://prefabs/player.tscn" id="1_egv2e"]
 [ext_resource type="Script" path="res://scripts/inventory_ui.gd" id="1_tfvwa"]
-[ext_resource type="Script" path="res://scripts/inventory.gd" id="2_7o0hy"]
-[ext_resource type="PackedScene" uid="uid://r0fv0hwrfavt" path="res://prefabs/citizen.tscn" id="2_vitnh"]
-[ext_resource type="Script" path="res://scripts/floating.gd" id="3_ce36q"]
 [ext_resource type="PackedScene" uid="uid://dtjjpohnjxhcc" path="res://prefabs/world_item.tscn" id="3_o6r5j"]
-[ext_resource type="Texture2D" uid="uid://c3atiljwdgtjf" path="res://sprites/bed.png" id="6_thw7v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx2uv"]
 bg_color = Color(0, 0, 0, 0.392157)
@@ -35,20 +31,6 @@ tonemap_mode = 2
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lxt0f"]
 albedo_color = Color(0, 0.384314, 0, 1)
 metallic_specular = 0.25
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ippaq"]
-radius = 0.2
-height = 0.8
-
-[sub_resource type="Gradient" id="Gradient_af7ti"]
-interpolation_mode = 1
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_5585g"]
-gradient = SubResource("Gradient_af7ti")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.730769, 0.217949)
 
 [node name="Node3D" type="Node3D"]
 
@@ -200,44 +182,4 @@ material = SubResource("StandardMaterial3D_lxt0f")
 
 [node name="Player" parent="." instance=ExtResource("1_egv2e")]
 
-[node name="Citizen" parent="." instance=ExtResource("2_vitnh")]
-
-[node name="Inventory" type="Node" parent="Citizen"]
-script = ExtResource("2_7o0hy")
-
 [node name="Plant" parent="." instance=ExtResource("3_o6r5j")]
-
-[node name="Plant2" parent="." instance=ExtResource("3_o6r5j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.4, 0)
-
-[node name="Plant3" parent="." instance=ExtResource("3_o6r5j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.4, 0)
-
-[node name="Plant4" parent="." instance=ExtResource("3_o6r5j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.4, 0)
-
-[node name="Plant5" type="Area3D" parent="." groups=["item"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.4, 0)
-monitoring = false
-script = ExtResource("3_ce36q")
-metadata/item_type = "Plant"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
-shape = SubResource("CapsuleShape3D_ippaq")
-
-[node name="Sprite3D" type="Sprite3D" parent="Plant5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
-pixel_size = 0.05
-texture_filter = 0
-texture = ExtResource("6_thw7v")
-
-[node name="Shadow" type="Decal" parent="Plant5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.38835, 0)
-size = Vector3(1, 2, 1)
-texture_albedo = SubResource("GradientTexture2D_5585g")
-upper_fade = 0.01
-cull_mask = 2
-
-[node name="NoGrabCooldown" type="Timer" parent="Plant5"]
-one_shot = true
