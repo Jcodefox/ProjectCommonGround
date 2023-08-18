@@ -14,11 +14,7 @@ class Item:
 		return name
 
 var items: Array[Item] = []
-@export var attached_ui: InventoryUI = null
-
-func _ready():
-	if attached_ui:
-		attach_ui(attached_ui)
+var attached_ui: InventoryUI = null
 
 func add_item(new_item: Item):
 	items.push_back(new_item)
@@ -44,11 +40,13 @@ func get_item_names() -> Array[String]:
 func attach_ui(inventory_ui: InventoryUI):
 	attached_ui = inventory_ui
 	attached_ui.item_dropped_on.connect(add_item)
+	attached_ui.hidden.connect(dettach_ui)
 	update_ui()
 
 func dettach_ui():
 	if attached_ui:
 		attached_ui.item_dropped_on.disconnect(add_item)
+		attached_ui.hidden.disconnect(dettach_ui)
 	attached_ui = null
 
 func update_ui():

@@ -5,6 +5,8 @@ const JUMP_VELOCITY = 4.5
 
 @export var world_item_prefab: PackedScene
 
+@onready var inventory_ui: CanvasLayer = get_node("../InventoryUI")
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -49,11 +51,11 @@ func _physics_process(delta):
 			refresh_inventory()
 
 	if Input.is_action_just_pressed("interact"):
-		var inventory_ui: CanvasLayer = get_node("../InventoryUI")
 		inventory_ui.visible = not inventory_ui.visible
 		refresh_inventory()
 		if inventory_ui.visible:
-			$Inventory.attach_ui(inventory_ui.get_node("PanelContainer/InventoryUI"))
+			$Inventory.attach_ui(inventory_ui.get_node("PlayerInventory/List"))
+			attach_nearby_inventory()
 		else:
 			$Inventory.dettach_ui()
 	
@@ -62,6 +64,18 @@ func _physics_process(delta):
 
 	for area in $ItemCollector.get_overlapping_areas():
 		handle_area(area)
+
+func attach_nearby_inventory():
+	var other_inventory_ui: InventoryUI = inventory_ui.get_node("OtherInventory/List")
+	other_inventory_ui.get_parent().visible = false
+	for area in $ItemCollector.get_overlapping_bodies():
+		if area == self:
+			continue
+		var inventory_to_attach: Node = area.find_child("Inventory")
+		if inventory_to_attach and inventory_to_attach is Inventory:
+			other_inventory_ui.get_parent().visible = true
+			inventory_to_attach.attach_ui(other_inventory_ui)
+			return
 
 func handle_area(area: Area3D):
 	if area.is_in_group("item") and not area in held_items:

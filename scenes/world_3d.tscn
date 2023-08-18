@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dfnfokxxf00en"]
+[gd_scene load_steps=17 format=3 uid="uid://dfnfokxxf00en"]
 
 [ext_resource type="PackedScene" uid="uid://dudyb8hofm2c2" path="res://prefabs/player.tscn" id="1_egv2e"]
 [ext_resource type="Script" path="res://scripts/inventory_ui.gd" id="1_tfvwa"]
@@ -7,6 +7,16 @@
 [ext_resource type="Script" path="res://scripts/floating.gd" id="3_ce36q"]
 [ext_resource type="PackedScene" uid="uid://dtjjpohnjxhcc" path="res://prefabs/world_item.tscn" id="3_o6r5j"]
 [ext_resource type="Texture2D" uid="uid://c3atiljwdgtjf" path="res://sprites/bed.png" id="6_thw7v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx2uv"]
+bg_color = Color(0, 0, 0, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ocw1"]
+bg_color = Color(0, 0, 0, 0.392157)
+border_width_left = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_p4etx"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -131,33 +141,45 @@ layout_mode = 2
 [node name="InventoryUI" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="PanelContainer" type="PanelContainer" parent="InventoryUI"]
-custom_minimum_size = Vector2(200, 200)
-offset_left = 425.0
-offset_top = 170.0
-offset_right = 425.0
-offset_bottom = 170.0
+[node name="PlayerInventory" type="PanelContainer" parent="InventoryUI"]
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hx2uv")
 
-[node name="InventoryUI" type="GridContainer" parent="InventoryUI/PanelContainer"]
+[node name="List" type="GridContainer" parent="InventoryUI/PlayerInventory"]
 layout_mode = 2
 columns = 8
 script = ExtResource("1_tfvwa")
 
-[node name="PanelContainer2" type="PanelContainer" parent="InventoryUI"]
-custom_minimum_size = Vector2(200, 200)
-offset_left = 708.0
-offset_top = 190.0
-offset_right = 908.0
-offset_bottom = 390.0
+[node name="OtherInventory" type="PanelContainer" parent="InventoryUI"]
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = -150.0
+offset_right = 450.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3ocw1")
 
-[node name="InventoryUI" type="GridContainer" parent="InventoryUI/PanelContainer2"]
+[node name="List" type="GridContainer" parent="InventoryUI/OtherInventory"]
 layout_mode = 2
 columns = 8
 script = ExtResource("1_tfvwa")
-
-[node name="Inventory" type="Node" parent="InventoryUI" node_paths=PackedStringArray("attached_ui")]
-script = ExtResource("2_7o0hy")
-attached_ui = NodePath("../PanelContainer2/InventoryUI")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6hmly")
@@ -179,6 +201,9 @@ material = SubResource("StandardMaterial3D_lxt0f")
 [node name="Player" parent="." instance=ExtResource("1_egv2e")]
 
 [node name="Citizen" parent="." instance=ExtResource("2_vitnh")]
+
+[node name="Inventory" type="Node" parent="Citizen"]
+script = ExtResource("2_7o0hy")
 
 [node name="Plant" parent="." instance=ExtResource("3_o6r5j")]
 
